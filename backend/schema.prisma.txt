@@ -1,0 +1,59 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+model User {
+  id        Int      @id @default(autoincrement())
+  username  String   @db.VarChar(15)
+  password  String   @db.VarChar(15)
+  title     String   @db.VarChar(255)
+  profileImagePath String @db.VarChar(255)
+  email   String   @unique
+  orders Order []
+}
+
+
+model Pizzeria {
+  id Int @id @default(autoincrement())
+  name String @db.VarChar(255)
+  address String @db.VarChar(255)
+  order Order []
+}
+
+model Order {
+  id Int @id @default(autoincrement())
+  pizzeriaId Int
+  pizzeria Pizzeria @relation(fields: [pizzeriaId], references: [id])
+  userId Int
+  user User @relation(fields: [userId], references: [id])
+  pizzas Pizza []
+}
+
+model Pizza {
+  id Int @id @default(autoincrement())
+  orderId Int
+  order Order @relation(fields [orderId], references: [id])
+  name String @db.VarChar(255)
+  pizzaIngredients PizzaIngredient []
+}
+
+model Ingredient {
+  id Int @id @default(autoincrement())
+  name String @db.VarChar(124)
+  quantity Float
+  pizzaIngredients PizzaIngredient []
+}
+
+model PizzaIngredient {
+  pizzaId Int
+  pizza Pizza @relation(fields: [pizzaId], references: [id])
+  ingredientId Int
+  ingredient Ingredient @relation(fields: [ingredientId], references: [id])
+  @@id([pizzaId, ingredientId])
+}
