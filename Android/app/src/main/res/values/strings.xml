@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Pizzeria</string>
+    <string name="get_backend_message">Get Backend Message</string>
 </resources>
