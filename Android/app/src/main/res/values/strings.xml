@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">Pizzeria</string>
     <string name="get_backend_message">Get Backend Message</string>
+    <string name="sign_up_title">Sign Up</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="username">Username</string>
+    <string name="register">Register</string>
 </resources>
