@@ -25,3 +25,9 @@ docker run --name postgres \
 
 Database connection string is configured in `.env.dev` file. It is already configured to connect to the database running in the Docker container.
 If you wish to connect to a different database, you can change the connection string in the `.env.dev` file.
+
+In order to create an initial migration run:
+
+```bash
+npx prisma migrate dev --name init
+```
