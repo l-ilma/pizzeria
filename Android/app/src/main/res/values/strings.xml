@@ -6,4 +6,6 @@
     <string name="password">Password</string>
     <string name="username">Username</string>
     <string name="register">Register</string>
+    <string name="pizzas">Pizzas</string>
+    <string name="drinks">Drinks</string>
 </resources>
