@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">Pizzeria</string>
     <string name="get_backend_message">Get Backend Message</string>
+    <string name="proceed_checkout">Proceed to Checkout</string>
+    <string name="sum">Sum:</string>
+    <string name="delivery_costs">Delivery fee:</string>
     <string name="sign_up_title">Sign Up</string>
     <string name="login_title">Welcome back!</string>
     <string name="email">Email</string>

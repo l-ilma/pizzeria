@@ -43,6 +43,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/toolbar"
             app:layout_constraintTop_toTopOf="parent"
+            android:onClick="onBasketClicked"
             app:srcCompat="@drawable/baseline_shopping_basket_24"
             app:tint="#ffff" />
     </androidx.constraintlayout.widget.ConstraintLayout>
