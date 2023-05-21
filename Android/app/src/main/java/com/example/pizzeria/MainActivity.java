@@ -6,8 +6,10 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.FrameLayout;
 
+import com.example.pizzeria.basket.BasketActivity;
 import com.example.pizzeria.menu.MenuFragment;
 import com.example.pizzeria.repository.AuthRepository;
 import com.example.pizzeria.ui.authentication.AuthenticationActivity;
@@ -27,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
@@ -41,15 +43,15 @@ public class MainActivity extends AppCompatActivity {
         PreferencesManager.instantiate(getApplicationContext());
     }
 
-    private void loadMenuFragment() {
-        FrameLayout fragmentContainer = (FrameLayout) findViewById(R.id.fragment_container);
+    void loadMenuFragment() {
+        FrameLayout fragmentContainer = findViewById(R.id.fragment_container);
 
         getSupportFragmentManager().beginTransaction()
                 .replace(fragmentContainer.getId(), new MenuFragment())
                 .commit();
     }
 
-    private void checkAuth() {
+    void checkAuth() {
         PreferencesManager.instantiate(getApplicationContext());
         String accessToken = PreferencesManager.getAccessToken();
         String refreshToken = PreferencesManager.getRefreshToken();
@@ -75,6 +77,11 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(getApplicationContext(), AuthenticationActivity.class);
             startActivity(intent);
         }
+    }
+
+    public void onBasketClicked(View view) {
+        Intent intent = new Intent(this, BasketActivity.class);
+        startActivity(intent);
     }
 
 //    public void onGetBackendMessageClick(View view) {
