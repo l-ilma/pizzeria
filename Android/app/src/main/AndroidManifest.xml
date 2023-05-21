@@ -13,6 +13,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Pizzeria"
         android:usesCleartextTraffic="${usesCleartextTraffic}">
+        <activity android:name=".ui.authentication.AuthenticationActivity"
+            android:exported="true" />
         <activity android:name=".MainActivity"
             android:exported="true">
             <intent-filter>

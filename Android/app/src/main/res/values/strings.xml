@@ -2,10 +2,15 @@
     <string name="app_name">Pizzeria</string>
     <string name="get_backend_message">Get Backend Message</string>
     <string name="sign_up_title">Sign Up</string>
+    <string name="login_title">Welcome back!</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="username">Username</string>
     <string name="register">Register</string>
+    <string name="login">Login</string>
     <string name="pizzas">Pizzas</string>
     <string name="drinks">Drinks</string>
+    <string name="invalid_username">Username should not be empty</string>
+    <string name="registration_failed_error">Registration failed</string>
+    <string name="login_failed_error">Login failed</string>
 </resources>
