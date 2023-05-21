@@ -16,4 +16,5 @@
     <string name="invalid_username">Username should not be empty</string>
     <string name="registration_failed_error">Registration failed</string>
     <string name="login_failed_error">Login failed</string>
+    <string name="logout">Logout</string>
 </resources>

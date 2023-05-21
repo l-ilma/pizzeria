@@ -25,27 +25,16 @@
         app:layout_constraintTop_toTopOf="parent"/>
 
         <ImageView
-            android:id="@+id/imageView1"
+            android:id="@+id/imageView2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="@+id/toolbar"
-            app:srcCompat="@drawable/baseline_person_24"
-            app:tint="#ffff"/>
-
-        <ImageView
-            android:id="@+id/imageView2"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="20dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/toolbar"
             app:layout_constraintTop_toTopOf="parent"
             android:onClick="onBasketClicked"
             app:srcCompat="@drawable/baseline_shopping_basket_24"
-            app:tint="#ffff" />
+            app:tint="#000" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </com.google.android.material.appbar.AppBarLayout>

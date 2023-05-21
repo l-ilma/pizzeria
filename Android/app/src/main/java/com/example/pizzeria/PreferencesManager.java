@@ -33,6 +33,16 @@ public class PreferencesManager {
         editor.apply();
     }
 
+    public static void clearTokens() {
+        SharedPreferences.Editor editor = context
+                .get()
+                .getSharedPreferences(USER_PREFERENCES, Context.MODE_PRIVATE)
+                .edit();
+        editor.remove(ACCESS_TOKEN_KEY);
+        editor.remove(REFRESH_TOKEN_KEY);
+        editor.apply();
+    }
+
     public static String getAccessToken() {
         SharedPreferences preferences = context
                 .get()
