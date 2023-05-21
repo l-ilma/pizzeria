@@ -13,6 +13,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Pizzeria"
         android:usesCleartextTraffic="${usesCleartextTraffic}">
+        <activity android:name=".PizzaListActivity"
+            android:exported="true">
+        </activity>
         <activity android:name=".ui.authentication.AuthenticationActivity"
             android:exported="true" />
         <activity android:name=".MainActivity"
