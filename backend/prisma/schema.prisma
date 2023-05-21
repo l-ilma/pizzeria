@@ -2,7 +2,7 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
   binaryTargets = ["native"]
 }
 
@@ -12,51 +12,52 @@ datasource db {
 }
 
 model User {
-  id               Int @id @default(autoincrement())
-  username         String       @db.VarChar(15)
-  password         String       @db.VarChar(15)
-  title            String       @db.VarChar(255)
-  profileImagePath String       @db.VarChar(255)
-  email            String       @unique
-  orders           Order []
+  id               String  @id @default(uuid())
+  username         String  @unique
+  password         String
+  title            String?
+  profileImagePath String?
+  email            String  @unique
+  refreshToken     String?
+  orders           Order[]
 }
 
-
 model Pizzeria {
-  id Int @id @default(autoincrement())
-  name String @db.VarChar(255)
-  address String @db.VarChar(255)
-  order Order []
+  id      String  @id @default(uuid())
+  name    String
+  address String
+  order   Order[]
 }
 
 model Order {
-  id Int @id @default(autoincrement())
-  pizzeriaId Int
-  pizzeria Pizzeria @relation(fields: [pizzeriaId], references: [id])
-  userId Int
-  user User @relation(fields: [userId], references: [id])
-  pizzas Pizza []
+  id         String   @id @default(uuid())
+  pizzeriaId String
+  pizzeria   Pizzeria @relation(fields: [pizzeriaId], references: [id])
+  userId     String
+  user       User     @relation(fields: [userId], references: [id])
+  pizzas     Pizza[]
 }
 
 model Pizza {
-  id Int @id @default(autoincrement())
-  orderId Int
-  order Order @relation(fields: [orderId], references: [id])
-  name String @db.VarChar(255)
-  pizzaIngredients PizzaIngredient []
+  id               String            @id @default(uuid())
+  orderId          String
+  order            Order             @relation(fields: [orderId], references: [id])
+  name             String
+  pizzaIngredients PizzaIngredient[]
 }
 
 model Ingredient {
-  id Int @id @default(autoincrement())
-  name String @db.VarChar(124)
-  quantity Float
-  pizzaIngredients PizzaIngredient []
+  id               String            @id @default(uuid())
+  name             String
+  quantity         Float
+  pizzaIngredients PizzaIngredient[]
 }
 
 model PizzaIngredient {
-  pizzaId Int
-  pizza Pizza @relation(fields: [pizzaId], references: [id])
-  ingredientId Int
-  ingredient Ingredient @relation(fields: [ingredientId], references: [id])
+  pizzaId      String
+  pizza        Pizza      @relation(fields: [pizzaId], references: [id])
+  ingredientId String
+  ingredient   Ingredient @relation(fields: [ingredientId], references: [id])
+
   @@id([pizzaId, ingredientId])
 }
