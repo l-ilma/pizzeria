@@ -18,6 +18,7 @@
         android:layout_toRightOf="@id/item_image"
         android:text="Some pizzeria name"
         android:gravity="right"/>
+
     <TextView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -33,5 +34,17 @@
         android:layout_toRightOf="@id/item_image"
         android:text="     30e"
         android:gravity="left"/>
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/ic_add_to_cart"/>
 
 </LinearLayout>
