@@ -1,6 +1,7 @@
 package com.example.pizzeria.ui.authentication;
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.AttributeSet;
 import android.view.View;
@@ -14,8 +15,10 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.pizzeria.R;
+import com.example.pizzeria.StateManager;
 import com.example.pizzeria.databinding.ActivityAuthenticationBinding;
-import com.example.pizzeria.PreferencesManager;
+import com.example.pizzeria.entity.User;
+import com.example.pizzeria.repository.UserRepository;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
@@ -36,34 +39,56 @@ public class AuthenticationActivity extends AppCompatActivity {
         setContentView(viewBinding.getRoot());
 
         assembleCredentialsPager();
-        attachLoginListener();
+        attachValidationListener();
     }
 
     public void onRegisterClick(View view) {
-        viewModel.register(
-                ((EditText) findViewById(R.id.signup_username)).getText().toString(),
-                ((EditText) findViewById(R.id.signup_email)).getText().toString(),
-                ((EditText) findViewById(R.id.signup_password)).getText().toString()
-        );
-    }
+        String username = ((EditText) findViewById(R.id.signup_username)).getText().toString();
+        String email = ((EditText) findViewById(R.id.signup_email)).getText().toString();
+        String password = ((EditText) findViewById(R.id.signup_password)).getText().toString();
+        viewModel.validateRegister(username, email, password);
 
-    public void onLoginClick(View view) {
-        viewModel.login(
-                ((EditText) findViewById(R.id.login_email)).getText().toString(),
-                ((EditText) findViewById(R.id.login_password)).getText().toString()
-        );
-    }
-
-    private void attachLoginListener() {
-        viewModel.getLoggedInUser().observe(this, user -> {
-            if (user == null) {
-                Toast.makeText(getApplicationContext(), viewModel.getErrorMessage(), Toast.LENGTH_LONG).show();
+        AsyncTask.execute(() -> {
+            if (viewModel.getValidationError().getValue() != null) {
                 return;
             }
 
-            PreferencesManager.instantiate(getApplicationContext());
-            PreferencesManager.saveAuthTokens(user.accessToken, user.refreshToken);
-            finish();
+            try {
+                User user = new UserRepository(getApplicationContext()).register(
+                        username,
+                        email,
+                        password
+                );
+                StateManager.setLoggedInUser(user);
+                if (viewModel.getValidationError().getValue() == null && user != null) {
+                    finish();
+                }
+            } catch (Exception e) {
+                viewModel.setValidationError(R.string.registration_failed_error);
+            }
+        });
+    }
+
+    public void onLoginClick(View view) {
+        AsyncTask.execute(() -> {
+            try {
+                User user = new UserRepository(getApplicationContext()).login(
+                        ((EditText) findViewById(R.id.login_email)).getText().toString(),
+                        ((EditText) findViewById(R.id.login_password)).getText().toString()
+                );
+                StateManager.setLoggedInUser(user);
+                finish();
+            } catch (Exception e) {
+                viewModel.setValidationError(R.string.authentication_failed_error);
+            }
+        });
+    }
+
+    private void attachValidationListener() {
+        viewModel.getValidationError().observe(this, error -> {
+            if (error != null) {
+                Toast.makeText(getApplicationContext(), error, Toast.LENGTH_LONG).show();
+            }
         });
     }
 
