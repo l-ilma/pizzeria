@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-       // checkAuth();
+        checkAuth();
 
         setContentView(R.layout.activity_main);
 
@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        //PreferencesManager.instantiate(getApplicationContext());
+        PreferencesManager.instantiate(getApplicationContext());
     }
 
     void loadMenuFragment() {
