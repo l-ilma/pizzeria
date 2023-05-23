@@ -15,21 +15,13 @@ public class BasketActivity extends AppCompatActivity {
     private BasketAdapter adapter;
     private TextView sumView;
 
-    BasketData[] basketData = new BasketData[] {
-            new BasketData("Cheese Pizza", R.drawable.cheese_pizza, 1, 10.4f),
-            new BasketData("Veggie Pizza", R.drawable.cheese_pizza, 2, 9.2f),
-            new BasketData("Pepperoni Pizza", R.drawable.cheese_pizza, 2, 10f),
-            new BasketData("Meat Pizza", R.drawable.cheese_pizza, 1, 12.2f),
-            new BasketData("Margherita Pizza", R.drawable.cheese_pizza, 3, 8.4f)
-    };
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_basket);
 
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
-        adapter = new BasketAdapter(basketData);
+        adapter = new BasketAdapter(Basket.getInstance().getBasketItems());
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
 
@@ -43,7 +35,7 @@ public class BasketActivity extends AppCompatActivity {
     public void removeItem(int position) {
         adapter.removeItem(position);
         adapter.notifyItemRemoved(position);
-        adapter.notifyItemRangeChanged(position, basketData.length);
+        adapter.notifyItemRangeChanged(position, Basket.getInstance().getBasketItems().length);
         refreshSumView();
     }
 

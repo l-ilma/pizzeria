@@ -1,6 +1,5 @@
 package com.example.pizzeria.menu;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,16 +9,13 @@ import android.widget.ListView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.viewpager2.widget.ViewPager2;
 
-import com.example.pizzeria.PizzaArrayAdapter;
+import com.example.pizzeria.ListViewAdapter;
 import com.example.pizzeria.R;
-import com.google.android.material.tabs.TabLayout;
-import com.google.android.material.tabs.TabLayoutMediator;
+import com.example.pizzeria.models.Product;
+import com.example.pizzeria.utils.Utilities;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class PizzaMenuFragment extends Fragment {
 
@@ -27,24 +23,12 @@ public class PizzaMenuFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View pizzaMenuView = inflater.inflate(R.layout.pizza_menu_fragment, container, false);
-        ListView pizzaList = pizzaMenuView.findViewById(R.id.pizzaList);
+        View pizzaMenuView = inflater.inflate(R.layout.product_menu_fragment, container, false);
+        ListView pizzaList = pizzaMenuView.findViewById(R.id.productList);
 
-        List<Integer> pizzas = new ArrayList<>();
-        pizzas.add(R.drawable.ic_pizza_mozzarela);
-        pizzas.add(R.drawable.ic_pizza_mozzarela);
-        pizzas.add(R.drawable.ic_pizza_mozzarela);
-        pizzas.add(R.drawable.ic_pizza_mozzarela);
-        pizzas.add(R.drawable.ic_pizza_mozzarela);
-        pizzas.add(R.drawable.ic_pizza_mozzarela);
-        pizzas.add(R.drawable.ic_pizza_mozzarela);
-        pizzas.add(R.drawable.ic_pizza_mozzarela);
-        pizzas.add(R.drawable.ic_pizza_mozzarela);
-        pizzas.add(R.drawable.ic_pizza_mozzarela);
-        pizzas.add(R.drawable.ic_pizza_mozzarela);
-        pizzas.add(R.drawable.ic_pizza_mozzarela);
+        List<Product> pizzaProducts = Utilities.getPizzaProducts();
+        pizzaList.setAdapter(new ListViewAdapter(inflater.getContext(), pizzaProducts));
 
-        pizzaList.setAdapter(new PizzaArrayAdapter(inflater.getContext(), pizzas));
         return pizzaMenuView;
     }
 

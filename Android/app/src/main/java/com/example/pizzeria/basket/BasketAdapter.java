@@ -67,7 +67,8 @@ public class BasketAdapter extends RecyclerView.Adapter<BasketAdapter.ViewHolder
     }
 
     public void changeItemCount(int position, int quantity) {
-        basket.get(position).setQuantity(quantity);
+        if(position > 0)
+            basket.get(position).setQuantity(quantity);
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -89,11 +90,18 @@ public class BasketAdapter extends RecyclerView.Adapter<BasketAdapter.ViewHolder
                 numberPicker.setMaxValue(10);
                 numberPicker.setWrapSelectorWheel(true);
                 numberPicker.setOnValueChangedListener((picker, oldVal, newVal) -> {
+                    BasketData[] basketItems = Basket.getInstance().getBasketItems();
                     if (newVal == 0) {
+                        Basket.getInstance()
+                                .removeItem(basketItems[getAdapterPosition()].getImgId());
                         ((BasketActivity) layout.getContext()).removeItem(getAdapterPosition());
                         return;
                     }
                     if (newVal != oldVal) {
+
+                        if(getAdapterPosition() >= 0)
+                            Basket.getInstance()
+                                    .updateItemCount(basketItems[getAdapterPosition()].getImgId(), newVal);
                         ((BasketActivity) layout.getContext()).changeItemCount(getAdapterPosition(), newVal);
                     }
                 });

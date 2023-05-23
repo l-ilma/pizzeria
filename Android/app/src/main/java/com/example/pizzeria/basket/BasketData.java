@@ -28,6 +28,9 @@ public class BasketData {
     public void setQuantity(int val) {
         quantity = val;
     }
+    public void incrementQuantity() {
+        quantity += 1;
+    }
 
     public float getPrice() {
         return price;
