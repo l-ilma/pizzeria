@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.AttributeSet;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -23,7 +24,6 @@ import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
 public class AuthenticationActivity extends AppCompatActivity {
-    private AuthenticationViewModel viewModel;
 
     @Nullable
     @Override
@@ -34,24 +34,20 @@ public class AuthenticationActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        viewModel = new ViewModelProvider(this, new AuthenticationViewFactory()).get(AuthenticationViewModel.class);
         ActivityAuthenticationBinding viewBinding = ActivityAuthenticationBinding.inflate(getLayoutInflater());
         setContentView(viewBinding.getRoot());
 
         assembleCredentialsPager();
-        attachValidationListener();
     }
 
     public void onRegisterClick(View view) {
+        if(!isValidRegisterInput()) return;
+
         String username = ((EditText) findViewById(R.id.signup_username)).getText().toString();
         String email = ((EditText) findViewById(R.id.signup_email)).getText().toString();
         String password = ((EditText) findViewById(R.id.signup_password)).getText().toString();
-        viewModel.validateRegister(username, email, password);
 
         AsyncTask.execute(() -> {
-            if (viewModel.getValidationError().getValue() != null) {
-                return;
-            }
 
             try {
                 User user = new UserRepository(getApplicationContext()).register(
@@ -60,16 +56,18 @@ public class AuthenticationActivity extends AppCompatActivity {
                         password
                 );
                 StateManager.setLoggedInUser(user);
-                if (viewModel.getValidationError().getValue() == null && user != null) {
-                    finish();
-                }
+                finish();
             } catch (Exception e) {
-                viewModel.setValidationError(R.string.registration_failed_error);
+                this.runOnUiThread(() ->
+                        Toast.makeText(this, R.string.registration_failed_error, Toast.LENGTH_SHORT).show()
+                );
             }
         });
     }
 
     public void onLoginClick(View view) {
+        if (!isValidLoginInput()) return;
+
         AsyncTask.execute(() -> {
             try {
                 User user = new UserRepository(getApplicationContext()).login(
@@ -79,15 +77,9 @@ public class AuthenticationActivity extends AppCompatActivity {
                 StateManager.setLoggedInUser(user);
                 finish();
             } catch (Exception e) {
-                viewModel.setValidationError(R.string.authentication_failed_error);
-            }
-        });
-    }
-
-    private void attachValidationListener() {
-        viewModel.getValidationError().observe(this, error -> {
-            if (error != null) {
-                Toast.makeText(getApplicationContext(), error, Toast.LENGTH_LONG).show();
+                this.runOnUiThread(() ->
+                        Toast.makeText(this, R.string.authentication_failed_error, Toast.LENGTH_SHORT).show()
+                );
             }
         });
     }
@@ -101,5 +93,48 @@ public class AuthenticationActivity extends AppCompatActivity {
 
         new TabLayoutMediator(tabLayout, viewPager, (tab, position) ->
                 tab.setText(position == 0 ? R.string.login : R.string.register)).attach();
+    }
+
+    private boolean isValidLoginInput() {
+        EditText email = findViewById(R.id.login_email);
+        EditText password = findViewById(R.id.login_password);
+
+        boolean valid = true;
+        if (!Patterns.EMAIL_ADDRESS.matcher(email.getText()).matches()) {
+            email.setError("Invalid email address");
+            valid = false;
+        }
+
+        if (password.toString().isEmpty()) {
+            password.setError("Password cannot be empty");
+            valid = false;
+        }
+
+        return valid;
+    }
+
+    private boolean isValidRegisterInput() {
+        boolean valid = true;
+
+        EditText username = findViewById(R.id.signup_username);
+        EditText email = findViewById(R.id.signup_email);
+        EditText password = findViewById(R.id.signup_password);
+
+        if (!Patterns.EMAIL_ADDRESS.matcher(email.getText()).matches()) {
+            email.setError("Invalid email address");
+            valid = false;
+        }
+
+        if (password.getText().toString().isEmpty()) {
+            password.setError("Password cannot be empty");
+            valid = false;
+        }
+
+        if (username.getText().toString().isEmpty()) {
+            username.setError("Username cannot be empty");
+            valid = false;
+        }
+
+        return valid;
     }
 }
