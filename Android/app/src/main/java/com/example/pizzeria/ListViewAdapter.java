@@ -10,6 +10,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.pizzeria.basket.Basket;
 import com.example.pizzeria.basket.BasketData;
@@ -110,6 +111,7 @@ public class ListViewAdapter extends BaseAdapter {
             BasketData basketData = new BasketData(currentProduct.name, currentProduct.id,
                                           1, currentProduct.price);
             Basket.getInstance().addItem(basketData);
+            Toast.makeText(context, "Item added to the basket", Toast.LENGTH_SHORT).show();
         };
         cartButton.setOnClickListener(onCartButtonClick);
 
