@@ -4,8 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:paddingHorizontal="@dimen/lg"
-    android:background="@drawable/gradient">
+    android:paddingHorizontal="@dimen/lg">
 
     <ListView
         android:id="@+id/productList"
@@ -19,17 +18,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:backgroundTint="@color/white_transparent_20"/>
-
-    <!---<Button
-        android:id="@+id/buttoncCustomize"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/pizzaList"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:background="@drawable/round_shape"
-        android:layout_marginBottom="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:textAllCaps="false"
-        android:text="Customize"/>-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

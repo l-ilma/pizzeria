@@ -1,14 +1,19 @@
 package com.example.pizzeria.basket;
 
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.pizzeria.R;
+
+import java.util.Objects;
 
 public class BasketActivity extends AppCompatActivity {
 
@@ -30,6 +35,8 @@ public class BasketActivity extends AppCompatActivity {
 
         deliveryFeeView.setText(adapter.getDeliveryFee() + "€");
         sumView.setText(String.format("%.2f", adapter.getSumOfCosts()) + "€");
+
+        setupActionBar();
     }
 
     public void removeItem(int position) {
@@ -50,5 +57,25 @@ public class BasketActivity extends AppCompatActivity {
 
     public void onCheckoutClicked(View view) {
         // TODO
+    }
+
+    private void setupActionBar() {
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setDisplayShowHomeEnabled(true);
+        actionBar.setTitle("Your Basket");
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                break;
+        }
+        return true;
     }
 }
