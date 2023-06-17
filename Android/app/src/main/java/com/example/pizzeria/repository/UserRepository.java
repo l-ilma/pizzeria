@@ -19,7 +19,7 @@ public class UserRepository {
     public User register(String username, String email, String password) throws Exception {
         boolean userExists = userDao.verifyCredentialsUniqueness(username, email);
         if (userExists) {
-            throw new Exception();
+            throw new Exception("User does not exist");
         }
 
         User user = new User(username, email, password, true);

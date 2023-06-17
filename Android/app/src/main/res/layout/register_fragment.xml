@@ -65,4 +65,26 @@
             android:onClick="onRegisterClick"
             />
 
+        <TextView
+            android:id="@+id/or"
+            android:layout_marginTop="@dimen/md"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/or"
+            android:layout_centerHorizontal="true"
+            android:textSize="15sp"
+            android:layout_below="@id/register_button"/>
+
+        <TextView
+            android:id="@+id/continue_as_guest"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/or"
+            android:layout_centerHorizontal="true"
+            android:text="@string/continue_as_guest"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:textColor="@color/red_900"
+            android:onClick="onContinueAsGuestInLoginClick" />
+
 </RelativeLayout>

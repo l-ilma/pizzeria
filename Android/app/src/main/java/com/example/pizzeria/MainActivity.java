@@ -62,12 +62,13 @@ public class MainActivity extends AppCompatActivity {
 
     @SuppressLint("RestrictedApi")
     @Override
-    public boolean onCreateOptionsMenu(Menu menu)
-    {
+    public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.settings_menu, menu);
+
         if(menu instanceof MenuBuilder){
             MenuBuilder m = (MenuBuilder) menu;
+            hideLogoutIfGuest(m);
             m.setOptionalIconsVisible(true);
         }
         return true;
@@ -75,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.logout) {
+        if (item.getItemId() == R.id.logout && StateManager.getLoggedInUser() != null) {
             logout();
             return true;
         }
@@ -89,5 +90,13 @@ public class MainActivity extends AppCompatActivity {
         });
         Intent intent = new Intent(getApplicationContext(), AuthenticationActivity.class);
         startActivity(intent);
+    }
+
+    @SuppressLint("RestrictedApi")
+    private void hideLogoutIfGuest(MenuBuilder m) {
+        if (StateManager.getLoggedInUser().getValue() == null) {
+            MenuItem logoutMenuItem = m.findItem(R.id.logout);
+            logoutMenuItem.setVisible(false);
+        }
     }
 }

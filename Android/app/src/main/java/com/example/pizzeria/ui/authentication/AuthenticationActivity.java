@@ -84,6 +84,11 @@ public class AuthenticationActivity extends AppCompatActivity {
         });
     }
 
+    public void onContinueAsGuestInLoginClick(View view) {
+        StateManager.setLoggedInUser(null);
+        finish();
+    }
+
     private void assembleCredentialsPager() {
         ViewPager2 viewPager = findViewById(R.id.credentials_pager);
         TabLayout tabLayout = findViewById(R.id.credentials_tab_layout);

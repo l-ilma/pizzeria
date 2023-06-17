@@ -17,6 +17,8 @@
     <string name="registration_failed_error">Registration failed</string>
     <string name="authentication_failed_error">Authentication failed</string>
     <string name="logout">Logout</string>
+    <string name="continue_as_guest">Continue as Guest</string>
+    <string name="or">Or</string>
     <string name="validation_empty">Field should not be empty</string>
     <string name="validation_invalid_email">Invalid email</string>
     <string name="validation_invalid_password">Password should be at least 8 characters long</string>
