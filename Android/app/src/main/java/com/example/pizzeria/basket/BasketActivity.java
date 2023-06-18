@@ -1,5 +1,6 @@
 package com.example.pizzeria.basket;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -11,6 +12,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.pizzeria.Checkout.CheckoutActivity;
 import com.example.pizzeria.R;
 
 import java.util.Objects;
@@ -57,6 +59,8 @@ public class BasketActivity extends AppCompatActivity {
 
     public void onCheckoutClicked(View view) {
         // TODO
+        Intent intent = new Intent(BasketActivity.this, CheckoutActivity.class);
+        startActivity(intent);
     }
 
     private void setupActionBar() {
