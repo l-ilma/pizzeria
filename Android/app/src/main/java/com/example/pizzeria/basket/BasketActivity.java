@@ -29,6 +29,8 @@ public class BasketActivity extends AppCompatActivity {
 
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         adapter = new BasketAdapter(Basket.getInstance().getBasketItems());
+        Basket.getInstance().setAdapter(adapter);
+
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
 
@@ -58,7 +60,6 @@ public class BasketActivity extends AppCompatActivity {
     }
 
     public void onCheckoutClicked(View view) {
-        // TODO
         Intent intent = new Intent(BasketActivity.this, CheckoutActivity.class);
         startActivity(intent);
     }

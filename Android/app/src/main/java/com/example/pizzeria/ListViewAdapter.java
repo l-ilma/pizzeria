@@ -105,6 +105,9 @@ public class ListViewAdapter extends BaseAdapter {
         cartButtonParams.topMargin = (int) (40 * scale * 0.5f);
         cartButton.setLayoutParams(cartButtonParams);
         cartButton.setImageResource(R.drawable.ic_add_to_cart);
+        cartButton.setId(position);
+
+
 
         View.OnClickListener onCartButtonClick = view -> {
             Product currentProduct = products.get(position);

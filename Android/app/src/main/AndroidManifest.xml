@@ -23,6 +23,7 @@
             android:exported="true">
         </activity>
         <activity android:name=".Checkout.CheckoutActivity"
+            android:windowSoftInputMode="adjustPan"
             android:exported="true"/>
     </application>
 

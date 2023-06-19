@@ -1,13 +1,13 @@
 package com.example.pizzeria.basket;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class Basket {
     private static Basket basket;
     private Map<Integer, BasketData> basketContent = new HashMap();
+
+    private BasketAdapter adapter;
     private Basket(){
     }
 
@@ -39,4 +39,8 @@ public class Basket {
     public void removeItem(int id) {
         basketContent.remove(id);
     }
+
+    public void setAdapter(BasketAdapter _adapter){this.adapter = _adapter;}
+
+    public BasketAdapter getAdapter(){return this.adapter;}
 }
