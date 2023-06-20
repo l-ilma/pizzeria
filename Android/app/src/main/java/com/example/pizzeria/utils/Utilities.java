@@ -1,7 +1,7 @@
 package com.example.pizzeria.utils;
 
 import com.example.pizzeria.R;
-import com.example.pizzeria.models.Product;
+import com.example.pizzeria.entity.Product;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -43,8 +43,8 @@ public class Utilities {
     public static List<Product> getPizzaProducts() {
         List<Product> pizzaProducts = new ArrayList<>();
         for(int position = 0; position < pizzaPrices.size(); position++ ){
-            pizzaProducts.add(new Product(pizzaImages.get(position), pizzaNames.get(position),
-                    pizzaPrices.get(position)));
+            pizzaProducts.add(new Product(pizzaNames.get(position),
+                    pizzaPrices.get(position), pizzaImages.get(position), "", 1));
         }
 
         return pizzaProducts;
@@ -53,10 +53,25 @@ public class Utilities {
     public static List<Product> getDrinkProducts() {
         List<Product> drinkProducts = new ArrayList<>();
         for(int position = 0; position < drinkPrices.size(); position++ ){
-            drinkProducts.add(new Product(drinkImages.get(position), drinkNames.get(position),
-                    drinkPrices.get(position)));
+            drinkProducts.add(new Product(drinkNames.get(position),
+                    drinkPrices.get(position), drinkImages.get(position), "", 0));
         }
 
         return drinkProducts;
+    }
+
+    public static List<Product> getProducts(){
+        List<Product> products = new ArrayList<>();
+        for(int position = 0; position < pizzaPrices.size(); position++ ){
+            products.add(new Product(pizzaNames.get(position),
+                    pizzaPrices.get(position), pizzaImages.get(position), "", 1));
+        }
+
+        for(int position = 0; position < drinkPrices.size(); position++ ){
+            products.add(new Product(drinkNames.get(position),
+                    drinkPrices.get(position), drinkImages.get(position), "", 0));
+        }
+
+        return products;
     }
 }

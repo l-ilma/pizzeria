@@ -21,10 +21,13 @@ public class User {
     @ColumnInfo(name = "isLoggedIn")
     public boolean isLoggedIn;
 
-    public User(String username, String email, String password, boolean isLoggedIn) {
+    public boolean isAdmin;
+
+    public User(String username, String email, String password, boolean isLoggedIn, boolean isAdmin) {
         this.username = username;
         this.email = email;
         this.password = password;
         this.isLoggedIn = isLoggedIn;
+        this.isAdmin = isAdmin;
     }
 }

@@ -7,9 +7,13 @@ import androidx.room.Update;
 
 import com.example.pizzeria.entity.User;
 
+import java.util.List;
+
 
 @Dao
 public interface UserDao {
+    @Insert
+    public void insertAll(List<User> users);
     @Query("SELECT * FROM user")
     User getAll();
 

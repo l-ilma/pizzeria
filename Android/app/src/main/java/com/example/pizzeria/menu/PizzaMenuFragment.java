@@ -12,7 +12,8 @@ import androidx.fragment.app.Fragment;
 
 import com.example.pizzeria.ListViewAdapter;
 import com.example.pizzeria.R;
-import com.example.pizzeria.models.Product;
+import com.example.pizzeria.entity.Product;
+import com.example.pizzeria.repository.ProductRepository;
 import com.example.pizzeria.utils.Utilities;
 
 import java.util.List;
@@ -24,10 +25,21 @@ public class PizzaMenuFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View pizzaMenuView = inflater.inflate(R.layout.product_menu_fragment, container, false);
+
+        ProductRepository productRepository = new ProductRepository(getContext());
         ListView pizzaList = pizzaMenuView.findViewById(R.id.productList);
 
-        List<Product> pizzaProducts = Utilities.getPizzaProducts();
-        pizzaList.setAdapter(new ListViewAdapter(inflater.getContext(), pizzaProducts));
+        Thread setUpListViewThread = new Thread(() -> {
+            List<Product> pizzaProducts = productRepository.getAllPizzas();
+            pizzaList.setAdapter(new ListViewAdapter(inflater.getContext(), pizzaProducts));
+        });
+
+        setUpListViewThread.start();
+        try {
+            setUpListViewThread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         return pizzaMenuView;
     }

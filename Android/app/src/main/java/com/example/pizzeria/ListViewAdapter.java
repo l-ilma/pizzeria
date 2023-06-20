@@ -14,7 +14,7 @@ import android.widget.Toast;
 
 import com.example.pizzeria.basket.Basket;
 import com.example.pizzeria.basket.BasketData;
-import com.example.pizzeria.models.Product;
+import com.example.pizzeria.entity.Product;
 
 import java.util.List;
 
@@ -59,7 +59,7 @@ public class ListViewAdapter extends BaseAdapter {
                 (int)(125 * scale * 0.5f)));
 
         pizzaImage.setId(position);
-        pizzaImage.setImageResource(products.get(position).id);
+        pizzaImage.setImageResource(products.get(position).staticId);
         pizzaImage.setScaleType(ImageView.ScaleType.FIT_CENTER);
 
         TextView firstEmptyTextView = new TextView(context);
@@ -108,7 +108,7 @@ public class ListViewAdapter extends BaseAdapter {
 
         View.OnClickListener onCartButtonClick = view -> {
             Product currentProduct = products.get(position);
-            BasketData basketData = new BasketData(currentProduct.name, currentProduct.id,
+            BasketData basketData = new BasketData(currentProduct.name, currentProduct.staticId,
                                           1, currentProduct.price);
             Basket.getInstance().addItem(basketData);
             Toast.makeText(context, "Item added to the basket", Toast.LENGTH_SHORT).show();

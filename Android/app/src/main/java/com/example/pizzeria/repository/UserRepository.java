@@ -22,7 +22,7 @@ public class UserRepository {
             throw new Exception("User does not exist");
         }
 
-        User user = new User(username, email, password, true);
+        User user = new User(username, email, password, true, false);
         userDao.insert(user);
         return user;
     }
