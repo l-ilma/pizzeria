@@ -22,4 +22,5 @@
     <string name="validation_empty">Field should not be empty</string>
     <string name="validation_invalid_email">Invalid email</string>
     <string name="validation_invalid_password">Password should be at least 8 characters long</string>
+    <string name="choose_toppings">Choose up to 5 toppings:</string>
 </resources>
