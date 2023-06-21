@@ -3,6 +3,7 @@ package com.example.pizzeria.Checkout;
 
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import androidx.appcompat.widget.Toolbar;
 ;
@@ -42,6 +43,7 @@ public class CheckoutActivity extends AppCompatActivity {
         showEndSum();
 
         createActionToolbar();
+        //updateProgressBar();
     }
 
     private void showEndSum(){
@@ -71,5 +73,9 @@ public class CheckoutActivity extends AppCompatActivity {
         }
         return true;
     }
+
+
+
+
 
 }
