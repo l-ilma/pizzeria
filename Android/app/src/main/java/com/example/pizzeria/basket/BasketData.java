@@ -1,24 +1,14 @@
 package com.example.pizzeria.basket;
 
+import com.example.pizzeria.entity.Product;
+
 public class BasketData {
-    private final String description;
-    private final int imgId;
+    private Product product;
     private int quantity;
-    private final float price;
 
-    public BasketData(String description, int imgId, int quantity, float price) {
-        this.description = description;
-        this.imgId = imgId;
+    public BasketData(Product product, int quantity) {
         this.quantity = quantity;
-        this.price = price;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public int getImgId() {
-        return imgId;
+        this.product = product;
     }
 
     public int getQuantity() {
@@ -31,9 +21,8 @@ public class BasketData {
     public void incrementQuantity() {
         quantity += 1;
     }
-
-    public float getPrice() {
-        return price;
+    public Product getProduct(){
+        return product;
     }
 
 }

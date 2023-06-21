@@ -1,9 +1,11 @@
 package com.example.pizzeria;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 
 import android.content.DialogInterface;
+import android.os.Build;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +19,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
+
 import com.example.pizzeria.basket.Basket;
 import com.example.pizzeria.basket.BasketData;
 import com.example.pizzeria.entity.Product;
@@ -28,10 +32,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-//custom adapter for mascot images
 public class ListViewAdapter extends BaseAdapter {
     private Context context;
-    // Keep all Images in array
     private List<Product> products;
 
     // Constructor
@@ -140,6 +142,7 @@ public class ListViewAdapter extends BaseAdapter {
             listEntry.addView(pizzaName);
             listEntry.addView(firstEmptyTextView);
             listEntry.addView(pizzaPrice);
+            listEntry.addView(emptyTextView);
             return listEntry;
         }
 
@@ -154,7 +157,7 @@ public class ListViewAdapter extends BaseAdapter {
     }
 
     void showCustomPizzaDialog(Product product) {
-        List<Item> pizzaToppings = ((MainActivity)context).pizzaToppings.stream().map(i -> new Item(i.name)).collect(Collectors.toList());
+        List<Item> pizzaToppings = ((MainActivity)context).pizzaToppings.stream().map(i -> new Item(i.name, i.id)).collect(Collectors.toList());
         List<Item> selectedItems = new ArrayList<>();
 
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -185,12 +188,15 @@ public class ListViewAdapter extends BaseAdapter {
         // Override BUTTON_POSITIVE onClick
         // (necessary because dialog closes automatically after clicking on OK otherwise)
         alert.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("NewApi")
             @Override
             public void onClick(View v) {
                 if (selectedItems.size() == 0) {
                     Toast.makeText(context, "You must select at least one topping", Toast.LENGTH_SHORT).show();
                 } else {
                     // TODO: save ingredients
+                    product.ingredients = String.join(",", selectedItems.stream()
+                            .map(i -> Long.toString(i.id)).collect(Collectors.toList()));
                     addItemToBasket(product);
                     alert.dismiss();
                 }
@@ -241,8 +247,7 @@ public class ListViewAdapter extends BaseAdapter {
     }
 
     void addItemToBasket(Product product) {
-        BasketData basketData = new BasketData(product.name, product.staticId,
-                1, product.price);
+        BasketData basketData = new BasketData(product, 1);
         Basket.getInstance().addItem(basketData);
         Toast.makeText(context, "Item added to the basket", Toast.LENGTH_SHORT).show();
     }

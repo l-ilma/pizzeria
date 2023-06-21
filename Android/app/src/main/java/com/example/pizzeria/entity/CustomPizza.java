@@ -13,12 +13,14 @@ import static androidx.room.ForeignKey.CASCADE;
                 onDelete = CASCADE
         )
 })
-public class Order extends BaseEntity{
+public class CustomPizza extends Product{
     public long userId;
-    public float price;
+    public CustomPizza(String name, float price, int staticId, String ingredients, int pizza) {
+        super(name, price, staticId, ingredients, pizza);
+    }
 
-    public Order(long userId, float price) {
+    public CustomPizza(Product product, long userId){
+        super(product.name, product.price, product.staticId, product.ingredients, product.pizza);
         this.userId = userId;
-        this.price = price;
     }
 }

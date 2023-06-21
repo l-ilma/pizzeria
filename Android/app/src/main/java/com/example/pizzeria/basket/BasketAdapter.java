@@ -40,10 +40,9 @@ public class BasketAdapter extends RecyclerView.Adapter<BasketAdapter.ViewHolder
     @Override
     public void onBindViewHolder(BasketAdapter.ViewHolder holder, int position) {
         final BasketData data = basket.get(position);
-        holder.textView.setText(data.getDescription());
-        holder.imageView.setImageResource(data.getImgId());
+        holder.imageView.setImageResource(data.getProduct().staticId);
         holder.numberPicker.setValue(data.getQuantity());
-        holder.numberView.setText(data.getPrice() + "€");
+        holder.numberView.setText(data.getProduct().price + "€");
     }
 
     @Override
@@ -61,7 +60,7 @@ public class BasketAdapter extends RecyclerView.Adapter<BasketAdapter.ViewHolder
     public float getSumOfCosts() {
         float sum = 0f;
         for (int i = 0; i < basket.size(); i++) {
-            sum += basket.get(i).getPrice() * basket.get(i).getQuantity();
+            sum += basket.get(i).getProduct().price * basket.get(i).getQuantity();
         }
         return sum + deliveryFee;
     }
@@ -93,7 +92,7 @@ public class BasketAdapter extends RecyclerView.Adapter<BasketAdapter.ViewHolder
                     BasketData[] basketItems = Basket.getInstance().getBasketItems();
                     if (newVal == 0) {
                         Basket.getInstance()
-                                .removeItem(basketItems[getAdapterPosition()].getImgId());
+                                .removeItem(basketItems[getAdapterPosition()].getProduct().staticId);
                         ((BasketActivity) layout.getContext()).removeItem(getAdapterPosition());
                         return;
                     }
@@ -101,13 +100,17 @@ public class BasketAdapter extends RecyclerView.Adapter<BasketAdapter.ViewHolder
 
                         if(getAdapterPosition() >= 0)
                             Basket.getInstance()
-                                    .updateItemCount(basketItems[getAdapterPosition()].getImgId(), newVal);
+                                    .updateItemCount(basketItems[getAdapterPosition()].getProduct().staticId, newVal);
                         ((BasketActivity) layout.getContext()).changeItemCount(getAdapterPosition(), newVal);
                     }
                 });
             }
 
         }
+    }
+
+    public List<BasketData> getBasketData(){
+        return basket;
     }
 
     

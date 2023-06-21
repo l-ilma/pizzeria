@@ -20,11 +20,11 @@ public class Basket {
     }
 
     public void addItem(BasketData basketItem) {
-        if(basketContent.containsKey(basketItem.getImgId())) {
-            basketContent.get(basketItem.getImgId()).incrementQuantity();
+        if(basketContent.containsKey(basketItem.getProduct().staticId)) {
+            basketContent.get(basketItem.getProduct().staticId).incrementQuantity();
         }
         else {
-            basketContent.put(basketItem.getImgId(), basketItem);
+            basketContent.put(basketItem.getProduct().staticId, basketItem);
         }
     }
 

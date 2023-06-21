@@ -82,7 +82,13 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.logout && StateManager.getLoggedInUser() != null) {
+        if(item.getItemId() == R.id.orders){
+
+        }
+        else if(item.getItemId() == R.id.my_pizzas){
+
+        }
+        else if (item.getItemId() == R.id.logout && StateManager.getLoggedInUser() != null) {
             logout();
             return true;
         }
@@ -103,6 +109,10 @@ public class MainActivity extends AppCompatActivity {
         if (StateManager.getLoggedInUser().getValue() == null) {
             MenuItem logoutMenuItem = m.findItem(R.id.logout);
             logoutMenuItem.setVisible(false);
+            MenuItem ordersMenuItem = m.findItem(R.id.orders);
+            ordersMenuItem.setVisible(false);
+            MenuItem myPizzasMenuItem = m.findItem(R.id.my_pizzas);
+            myPizzasMenuItem.setVisible(false);
         }
     }
 
