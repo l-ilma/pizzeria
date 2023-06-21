@@ -1,10 +1,13 @@
 package com.example.pizzeria.basket;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.NumberPicker;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -21,12 +24,12 @@ public class BasketAdapter extends RecyclerView.Adapter<BasketAdapter.ViewHolder
     private final List<BasketData> basket = new ArrayList<>();
     private final int deliveryFee = 2;
 
-    public int getDeliveryFee() {
-        return deliveryFee;
-    }
-
     public BasketAdapter(BasketData[] basket) {
         this.basket.addAll(Arrays.asList(basket));
+    }
+
+    public int getDeliveryFee() {
+        return deliveryFee;
     }
 
     @NonNull
@@ -41,7 +44,7 @@ public class BasketAdapter extends RecyclerView.Adapter<BasketAdapter.ViewHolder
     public void onBindViewHolder(BasketAdapter.ViewHolder holder, int position) {
         final BasketData data = basket.get(position);
         holder.imageView.setImageResource(data.getProduct().staticId);
-        holder.numberPicker.setValue(data.getQuantity());
+        holder.numberOfProducts.setText(String.valueOf(data.getQuantity()));
         holder.numberView.setText(data.getProduct().price + "€");
     }
 
@@ -66,7 +69,7 @@ public class BasketAdapter extends RecyclerView.Adapter<BasketAdapter.ViewHolder
     }
 
     public void changeItemCount(int position, int quantity) {
-        if(position > 0)
+        if (position > 0)
             basket.get(position).setQuantity(quantity);
     }
 
@@ -75,37 +78,68 @@ public class BasketAdapter extends RecyclerView.Adapter<BasketAdapter.ViewHolder
         public TextView textView;
         public TextView numberView;
         public RelativeLayout layout;
-        public NumberPicker numberPicker;
+        public EditText numberOfProducts;
+        public Button increment;
+        public Button decrement;
+
         public ViewHolder(View itemView) {
             super(itemView);
             this.imageView = itemView.findViewById(R.id.imageView);
             this.textView = itemView.findViewById(R.id.textView);
             this.numberView = itemView.findViewById(R.id.numberView);
             layout = itemView.findViewById(R.id.basketLayout);
-            numberPicker = itemView.findViewById(R.id.numberPicker);
 
-            if (numberPicker != null) {
-                numberPicker.setMinValue(0);
-                numberPicker.setMaxValue(10);
-                numberPicker.setWrapSelectorWheel(true);
-                numberPicker.setOnValueChangedListener((picker, oldVal, newVal) -> {
+            View numberPicker = itemView.findViewById(R.id.numberPicker);
+            numberOfProducts = numberPicker.findViewById(R.id.numberOfProducts);
+            increment = numberPicker.findViewById(R.id.incrementButton);
+            decrement = numberPicker.findViewById(R.id.decrementButton);
+
+            decrement.setOnClickListener((View view) -> {
+                int currentNum = Integer.parseInt(numberOfProducts.getText().toString());
+                updateCount(currentNum - 1);
+            });
+
+            increment.setOnClickListener((View view) -> {
+                int currentNum = Integer.parseInt(numberOfProducts.getText().toString());
+                updateCount(currentNum + 1);
+            });
+
+            numberOfProducts.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                    //
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                     BasketData[] basketItems = Basket.getInstance().getBasketItems();
-                    if (newVal == 0) {
-                        Basket.getInstance()
-                                .removeItem(basketItems[getAdapterPosition()].getProduct().staticId);
-                        ((BasketActivity) layout.getContext()).removeItem(getAdapterPosition());
+                    int newVal;
+
+                    try {
+                        newVal = Integer.parseInt(charSequence.toString());
+                    } catch (Exception e) {
                         return;
                     }
-                    if (newVal != oldVal) {
 
-                        if(getAdapterPosition() >= 0)
-                            Basket.getInstance()
-                                    .updateItemCount(basketItems[getAdapterPosition()].getProduct().staticId, newVal);
-                        ((BasketActivity) layout.getContext()).changeItemCount(getAdapterPosition(), newVal);
+                    Basket.getInstance().updateItemCount(basketItems[getAdapterPosition()].getProduct().staticId, newVal);
+                    ((BasketActivity) layout.getContext()).changeItemCount(getAdapterPosition(), newVal);
+
+
+                    if (newVal <= 0 && getAdapterPosition() >= 0) {
+                        Basket.getInstance().removeItem(basketItems[getAdapterPosition()].getProduct().staticId);
+                        ((BasketActivity) layout.getContext()).removeItem(getAdapterPosition());
                     }
-                });
-            }
+                }
 
+                @Override
+                public void afterTextChanged(Editable editable) {
+                    //
+                }
+            });
+        }
+
+        private void updateCount(int newVal) {
+            numberOfProducts.setText(String.valueOf(newVal));
         }
     }
 
@@ -113,5 +147,5 @@ public class BasketAdapter extends RecyclerView.Adapter<BasketAdapter.ViewHolder
         return basket;
     }
 
-    
+
 }

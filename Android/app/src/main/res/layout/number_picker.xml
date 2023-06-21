@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="end">
+
+        <Button
+            android:id="@+id/decrementButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:textColor="@color/black"
+            android:backgroundTint="#67e8f9"
+            android:text="-"
+            android:onClick="onDecrementClick" />
+
+        <EditText
+            android:id="@+id/numberOfProducts"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:backgroundTint="@color/white"
+            android:inputType="number"
+            android:layout_width="30dp" />
+
+        <Button
+            android:id="@+id/incrementButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:backgroundTint="#67e8f9"
+            android:textColor="@color/black"
+            android:text="+"
+            android:onClick="onIncrementClick" />
+    </LinearLayout>
+
+</RelativeLayout>
