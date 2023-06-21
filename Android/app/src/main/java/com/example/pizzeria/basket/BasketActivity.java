@@ -1,5 +1,6 @@
 package com.example.pizzeria.basket;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,6 +13,7 @@ import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.pizzeria.Checkout.CheckoutActivity;
 import com.example.pizzeria.R;
 import com.example.pizzeria.StateManager;
 import com.example.pizzeria.entity.CustomPizza;
@@ -38,6 +40,8 @@ public class BasketActivity extends AppCompatActivity {
 
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         adapter = new BasketAdapter(Basket.getInstance().getBasketItems());
+        Basket.getInstance().setAdapter(adapter);
+
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
 
@@ -98,6 +102,8 @@ public class BasketActivity extends AppCompatActivity {
             }
         }
 
+        Intent intent = new Intent(BasketActivity.this, CheckoutActivity.class);
+        startActivity(intent);
     }
 
     private void setupActionBar() {

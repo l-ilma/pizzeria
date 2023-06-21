@@ -7,6 +7,8 @@ import java.util.Map;
 
 public class Basket {
     private static Basket basket;
+
+    private BasketAdapter adapter;
     private final Map<Integer, BasketData> basketContent = new HashMap<>();
     private Basket(){
     }
@@ -39,4 +41,8 @@ public class Basket {
     public void removeItem(int id) {
         basketContent.remove(id);
     }
+
+    public void setAdapter(BasketAdapter _adapter){this.adapter = _adapter;}
+
+    public BasketAdapter getAdapter(){return this.adapter;}
 }
