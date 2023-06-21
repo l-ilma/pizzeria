@@ -86,6 +86,8 @@ public class BasketAdapter extends RecyclerView.Adapter<BasketAdapter.ViewHolder
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
+
+
         public ImageView imageView;
         public TextView textView;
         public TextView toppingsCustom;

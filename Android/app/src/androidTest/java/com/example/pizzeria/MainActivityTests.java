@@ -11,7 +11,6 @@ import androidx.test.uiautomator.UiDevice;
 import androidx.test.uiautomator.UiObjectNotFoundException;
 import androidx.test.uiautomator.UiSelector;
 
-import com.example.pizzeria.ui.authentication.AuthenticationActivity;
 
 import org.junit.FixMethodOrder;
 import org.junit.Rule;
@@ -24,6 +23,8 @@ import static androidx.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.typeText;
+
+
 
 @RunWith(AndroidJUnit4.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -77,4 +78,24 @@ public class MainActivityTests {
         Thread.sleep(2000);
 
     }
+
+
+    /**
+     * Test LogOut from Basket
+     * */
+    @Test
+    public void GLogOutFromBasketTest() throws InterruptedException, UiObjectNotFoundException {
+
+
+        login();
+
+        onView(ViewMatchers.withId(R.id.imageView2)).perform(click());
+
+        Thread.sleep(2000);
+
+        CperformLogout(); //fails currently bcs the logout button is not present
+    }
+
+
+
 }

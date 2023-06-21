@@ -9,6 +9,8 @@ import java.util.stream.Collectors;
 
 public class Basket {
     private static Basket basket;
+
+    private BasketAdapter adapter;
     private final List<BasketData> basketContent = new ArrayList<>();
     private Basket(){
     }
@@ -67,4 +69,8 @@ public class Basket {
     public void removeItem(BasketData item) {
         basketContent.remove(item);
     }
+
+    public void setAdapter(BasketAdapter _adapter){this.adapter = _adapter;}
+
+    public BasketAdapter getAdapter(){return this.adapter;}
 }

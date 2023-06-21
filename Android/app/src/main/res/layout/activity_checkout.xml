@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="bottom"
+    android:background="#FAFAFA"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    android:weightSum="100">
+
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_checkout"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:elevation="4dp"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="0dp" />
+
+
+    <TextView
+        android:id="@+id/textViewDeliveryAddress"
+        android:layout_width="157dp"
+        android:layout_height="33dp"
+        android:layout_marginTop="20dp"
+        android:text="@string/enter_address"
+        android:textSize="22sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editNoteForDriver" />
+
+    <TextView
+        android:id="@+id/textViewDeliveryPLZ"
+        android:layout_width="67dp"
+        android:layout_height="33dp"
+        android:layout_marginTop="20dp"
+        android:text="@string/PLZ"
+        android:textSize="22sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editNoteForDriver" />
+
+    <EditText
+        android:id="@+id/editTextPLZ"
+        android:layout_width="114dp"
+        android:layout_height="43dp"
+        android:hint="8020"
+        android:inputType="textPostalAddress"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/editTextAddress"
+        app:layout_constraintTop_toBottomOf="@+id/textViewDeliveryPLZ" />
+
+    <EditText
+        android:id="@+id/editTextAddress"
+        android:layout_width="284dp"
+        android:layout_height="43dp"
+        android:hint="Enter your address"
+        android:inputType="textPostalAddress"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewDeliveryAddress" />
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout2"
+        android:layout_width="396dp"
+        android:layout_height="61dp"
+        android:layout_marginBottom="8dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/checkoutButton"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <TextView
+            android:layout_width="73dp"
+            android:layout_height="50dp"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="23dp"
+            android:text="@string/sum"
+            android:textSize="25sp" />
+
+        <TextView
+            android:id="@+id/sum_total"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="20dp"
+            android:textSize="25sp" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/textAddNote"
+        android:layout_width="157dp"
+        android:layout_height="33dp"
+        android:layout_marginTop="12dp"
+        android:text="@string/add_note"
+        android:textSize="22sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/recyclerView_checkout" />
+
+    <EditText
+        android:id="@+id/editNoteForDriver"
+        android:layout_width="406dp"
+        android:layout_height="42dp"
+        android:hint="Note for the driver"
+        android:inputType="textPostalAddress"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textAddNote" />
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView_checkout"
+        android:layout_width="402dp"
+        android:layout_height="261dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="84dp"
+
+        android:layout_weight="82"
+        android:scrollbars="vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_checkout"
+        tools:context=".Checkout.CheckoutActivity" />
+
+    <Button
+        android:id="@+id/checkoutButton"
+        android:layout_width="300dp"
+        android:layout_height="57dp"
+        android:backgroundTint="@android:color/holo_green_dark"
+        android:onClick="onCheckoutClicked"
+        android:text="@string/checkout_buy"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintVertical_bias="1"
+        tools:layout_editor_absoluteX="51dp"
+        tools:layout_editor_absoluteY="733dp" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+
+    <RelativeLayout
+        android:layout_width="414dp"
+        android:layout_height="61dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="@+id/relativeLayout2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.666"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.083">
+
+        <ImageView
+            android:id="@+id/image_progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleType="centerCrop"
+            android:src="@drawable/full_progress4"
+             />
+
+    </RelativeLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+
