@@ -15,19 +15,14 @@ import android.view.MenuItem;
 import android.widget.FrameLayout;
 
 import com.example.pizzeria.basket.BasketActivity;
-import com.example.pizzeria.entity.Ingredient;
 import com.example.pizzeria.entity.User;
 import com.example.pizzeria.menu.MenuFragment;
-import com.example.pizzeria.repository.IngredientRepository;
 import com.example.pizzeria.repository.UserRepository;
 import com.example.pizzeria.ui.authentication.AuthenticationActivity;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
-    public List<Ingredient> pizzaToppings = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +33,6 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
-        loadPizzaToppings();
         loadMenuFragment();
     }
 
@@ -114,11 +108,5 @@ public class MainActivity extends AppCompatActivity {
             MenuItem myPizzasMenuItem = m.findItem(R.id.my_pizzas);
             myPizzasMenuItem.setVisible(false);
         }
-    }
-
-    void loadPizzaToppings() {
-        AsyncTask.execute(() -> {
-            pizzaToppings = new IngredientRepository(this).getAll();
-        });
     }
 }

@@ -43,6 +43,7 @@ public class BasketAdapter extends RecyclerView.Adapter<BasketAdapter.ViewHolder
     @Override
     public void onBindViewHolder(BasketAdapter.ViewHolder holder, int position) {
         final BasketData data = basket.get(position);
+        holder.textView.setText(data.getProduct().name);
         holder.imageView.setImageResource(data.getProduct().staticId);
         holder.numberOfProducts.setText(String.valueOf(data.getQuantity()));
         holder.numberView.setText(data.getProduct().price + "€");

@@ -5,27 +5,23 @@ import android.app.AlertDialog;
 import android.content.Context;
 
 import android.content.DialogInterface;
-import android.os.Build;
-import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.CheckedTextView;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import androidx.annotation.RequiresApi;
 
 import com.example.pizzeria.basket.Basket;
 import com.example.pizzeria.basket.BasketData;
 import com.example.pizzeria.entity.Product;
 import com.example.pizzeria.ui.dialog.DialogItemsAdapter;
 import com.example.pizzeria.ui.dialog.Item;
+import com.example.pizzeria.utils.Utilities;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,109 +57,62 @@ public class ListViewAdapter extends BaseAdapter {
 
     // create a new ImageView for each item referenced by the Adapter
     public View getView(int position, View convertView, ViewGroup parent) {
+        if (convertView == null) {
+            convertView = LayoutInflater.from(context)
+                    .inflate(R.layout.list_view_item, parent, false);
+        }
 
-        final float scale = context.getResources().getDisplayMetrics().density;
+        Product product = products.get(position);
 
-        LinearLayout listEntry = new LinearLayout(context);
-        listEntry.setLayoutParams(new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
+        ImageView itemImage = convertView.findViewById(R.id.itemImage);
+        itemImage.setImageResource(product.staticId);
 
-        listEntry.setOrientation(LinearLayout.HORIZONTAL);
+        TextView itemName = convertView.findViewById(R.id.itemName);
+        itemName.setText(product.name);
 
-        ImageView pizzaImage = new ImageView(context);
-        pizzaImage.setLayoutParams(new FrameLayout.LayoutParams(
-                (int) (125 * scale * 0.5f),
-                (int) (125 * scale * 0.5f)));
+        TextView itemIngredients = convertView.findViewById(R.id.itemIngredients);
+        if (product.ingredients.length() != 0) {
+            itemIngredients.setVisibility(View.VISIBLE);
+            itemIngredients.setText(product.ingredients);
+        } else {
+            itemIngredients.setVisibility(View.GONE);
+        }
 
-        pizzaImage.setId(position);
-        pizzaImage.setImageResource(products.get(position).staticId);
-        pizzaImage.setScaleType(ImageView.ScaleType.FIT_CENTER);
+        TextView itemPrice = convertView.findViewById(R.id.itemPrice);
+        itemPrice.setText(product.price + "€");
 
-        TextView firstEmptyTextView = new TextView(context);
-        LinearLayout.LayoutParams firstEmptyTextParams = new LinearLayout.LayoutParams(0,
-                LinearLayout.LayoutParams.WRAP_CONTENT);
-        firstEmptyTextParams.weight = 1;
-        firstEmptyTextView.setLayoutParams(firstEmptyTextParams);
+        ImageView basket = convertView.findViewById(R.id.basket);
 
-        TextView pizzaName = new TextView(context);
-        LinearLayout.LayoutParams nameParams = new LinearLayout.LayoutParams(
-                (int) (200 * scale * 0.5f),
-                LinearLayout.LayoutParams.WRAP_CONTENT);
-        nameParams.topMargin = (int) (45 * scale * 0.5f);
-        nameParams.leftMargin = (int) (40 * scale * 0.5f);
+        if (Objects.equals(product.name, "Custom")) {
+            basket.setVisibility(View.INVISIBLE);
+            itemIngredients.setVisibility(View.VISIBLE);
+            itemIngredients.setText("Press to make your own pizza!");
 
-        pizzaName.setLayoutParams(nameParams);
-        pizzaName.setGravity(Gravity.RIGHT);
-        pizzaName.setTextAlignment(View.TEXT_ALIGNMENT_VIEW_START);
-        pizzaName.setText(products.get(position).name);
-        pizzaName.setTextColor(context.getResources().getColor(R.color.black));
+            View.OnClickListener onCustomPizzaClick = v -> {
+                showCustomPizzaDialog(products.get(position));
+            };
 
-        TextView emptyTextView = new TextView(context);
-        LinearLayout.LayoutParams emptyTextParams = new LinearLayout.LayoutParams(0,
-                LinearLayout.LayoutParams.WRAP_CONTENT);
-        emptyTextParams.weight = 1;
-        emptyTextView.setLayoutParams(emptyTextParams);
-
-        TextView pizzaPrice = new TextView(context);
-        LinearLayout.LayoutParams priceParams = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        priceParams.topMargin = (int) (45 * scale * 0.5f);
-        priceParams.leftMargin = (int) (40 * scale * 0.5f);
-
-        pizzaPrice.setLayoutParams(priceParams);
-        pizzaPrice.setGravity(Gravity.RIGHT);
-        pizzaPrice.setText(Float.toString(products.get(position).price));
-        pizzaPrice.setTextColor(context.getResources().getColor(R.color.black));
-
-        ImageView cartButton = new ImageView(context);
-        LinearLayout.LayoutParams cartButtonParams = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        cartButtonParams.rightMargin = (int) (20 * scale * 0.5f);
-        cartButtonParams.topMargin = (int) (40 * scale * 0.5f);
-        cartButton.setLayoutParams(cartButtonParams);
-        cartButton.setImageResource(R.drawable.ic_add_to_cart);
+            convertView.setOnClickListener(onCustomPizzaClick);
+        } else {
+            basket.setVisibility(View.VISIBLE);
+        }
 
         View.OnClickListener onCartButtonClick = view -> {
             addItemToBasket(products.get(position));
         };
-        cartButton.setOnClickListener(onCartButtonClick);
+        basket.setOnClickListener(onCartButtonClick);
 
-        View.OnClickListener onCustomPizzaClick = v -> {
-            showCustomPizzaDialog(products.get(position));
-        };
-
-        if (Objects.equals(products.get(position).name, "Custom")) {
-            listEntry.setOnClickListener(onCustomPizzaClick);
-
-            priceParams.rightMargin = (int) (155 * scale * 0.5f);
-            pizzaPrice.setLayoutParams(priceParams);
-
-            listEntry.addView(pizzaImage);
-            listEntry.addView(pizzaName);
-            listEntry.addView(firstEmptyTextView);
-            listEntry.addView(pizzaPrice);
-            listEntry.addView(emptyTextView);
-            return listEntry;
-        }
-
-        listEntry.addView(pizzaImage);
-        listEntry.addView(pizzaName);
-        listEntry.addView(firstEmptyTextView);
-        listEntry.addView(pizzaPrice);
-        listEntry.addView(emptyTextView);
-        listEntry.addView(cartButton);
-
-        return listEntry;
+        return convertView;
     }
 
     void showCustomPizzaDialog(Product product) {
-        List<Item> pizzaToppings = ((MainActivity)context).pizzaToppings.stream().map(i -> new Item(i.name, i.id)).collect(Collectors.toList());
+        List<Item> pizzaToppings = Utilities.ingredients.stream().map(Item::new).collect(Collectors.toList());
         List<Item> selectedItems = new ArrayList<>();
 
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle(R.string.choose_toppings);
         DialogItemsAdapter adapter = new DialogItemsAdapter(context.getApplicationContext(), android.R.layout.select_dialog_multichoice, pizzaToppings);
-        builder.setAdapter(adapter,null);
+        builder.setAdapter(adapter, null);
 
         builder.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
             @Override
@@ -173,7 +122,8 @@ public class ListViewAdapter extends BaseAdapter {
         });
         builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {}
+            public void onClick(DialogInterface dialog, int which) {
+            }
         });
 
         AlertDialog alert = builder.create();
@@ -194,9 +144,8 @@ public class ListViewAdapter extends BaseAdapter {
                 if (selectedItems.size() == 0) {
                     Toast.makeText(context, "You must select at least one topping", Toast.LENGTH_SHORT).show();
                 } else {
-                    // TODO: save ingredients
                     product.ingredients = String.join(",", selectedItems.stream()
-                            .map(i -> Long.toString(i.id)).collect(Collectors.toList()));
+                            .map(i -> i.name).collect(Collectors.toList()));
                     addItemToBasket(product);
                     alert.dismiss();
                 }
@@ -227,7 +176,7 @@ public class ListViewAdapter extends BaseAdapter {
             for (int i = 0; i < adapterView.getChildCount(); i++) {
                 CheckedTextView childView = (CheckedTextView) adapterView.getChildAt(i);
                 boolean found = false;
-                for (Item it: selectedItems) {
+                for (Item it : selectedItems) {
                     if (Objects.equals(it.name, childView.getText().toString())) {
                         found = true;
                         break;
