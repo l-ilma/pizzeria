@@ -6,8 +6,7 @@
     android:layout_height="match_parent"
     android:layout_gravity="bottom"
     android:orientation="vertical"
-    android:weightSum="100"
-    android:background="#FAFAFA">
+    android:weightSum="100">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -15,26 +14,24 @@
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
         android:elevation="4dp"
-        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-        />
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar" />
 
-
+    <ImageView
+        android:layout_marginTop="20dp"
+        android:id="@+id/progressBar"
+        android:layout_height="0dp"
+        android:layout_width="match_parent"
+        android:layout_weight="10"
+        android:scaleType="centerCrop"
+        android:src="@drawable/basket_progress" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="82"
+        android:layout_weight="72"
         android:scrollbars="vertical"
         tools:context=".basket.BasketActivity" />
-
-
-    <ImageView
-        android:id="@+id/imageViewaaa"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/baske_progress" />
 
     <LinearLayout
         android:id="@+id/costs"
@@ -43,7 +40,7 @@
         android:layout_gravity="bottom"
         android:layout_weight="10"
         android:orientation="vertical"
-        android:layout_marginTop="15dp">
+        android:layout_marginTop="5dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -86,19 +83,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="20dp"
+                android:textColor="@color/green"
+                android:textStyle="bold"
                 android:layout_alignParentEnd="true"
                 android:textSize="25sp" />
         </RelativeLayout>
     </LinearLayout>
-
-    <Button
-        android:id="@+id/checkoutButton"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="8"
-        android:padding="0dp"
-        android:backgroundTint="@color/button_primary"
-        android:onClick="onCheckoutClicked"
-        android:layout_marginBottom="0dp"
-        android:text="@string/proceed_checkout" />
 </LinearLayout>

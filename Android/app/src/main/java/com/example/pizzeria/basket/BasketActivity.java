@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -70,13 +71,18 @@ public class BasketActivity extends AppCompatActivity {
     }
 
     public void onCheckoutClicked(View view) {
+        List<BasketData> basket = adapter.getBasketData();
+        if (basket.isEmpty()) {
+            Toast.makeText(this, "You must add items to the basket first", Toast.LENGTH_SHORT)
+                    .show();
+            return;
+        }
+
         Intent intent = new Intent(BasketActivity.this, CheckoutActivity.class);
         startActivity(intent);
         LiveData<User> loggedInUser = StateManager.getLoggedInUser();
         if(loggedInUser != null){
             Thread finishOrderThread = new Thread(() -> {
-                List<BasketData> basket = adapter.getBasketData();
-
                 ProductOrderRepository productOrderRepository = new ProductOrderRepository(getApplicationContext());
                 OrderRepository orderRepository = new OrderRepository(getApplicationContext());
 
