@@ -86,7 +86,7 @@ public class ListViewAdapter extends BaseAdapter {
         if (Objects.equals(product.name, "Custom")) {
             basket.setVisibility(View.INVISIBLE);
             itemIngredients.setVisibility(View.VISIBLE);
-            itemIngredients.setText("Press to make your own pizza!");
+            itemIngredients.setText(R.string.make_custom_pizza);
 
             View.OnClickListener onCustomPizzaClick = v -> {
                 showCustomPizzaDialog(products.get(position));
@@ -144,9 +144,10 @@ public class ListViewAdapter extends BaseAdapter {
                 if (selectedItems.size() == 0) {
                     Toast.makeText(context, "You must select at least one topping", Toast.LENGTH_SHORT).show();
                 } else {
-                    product.ingredients = String.join(",", selectedItems.stream()
-                            .map(i -> i.name).collect(Collectors.toList()));
-                    addItemToBasket(product);
+                    Product newPizza = new Product(product.name, product.price, product.staticId,
+                            String.join(",", selectedItems.stream()
+                                    .map(i -> i.name).collect(Collectors.toList())), 1);
+                    addItemToBasket(newPizza);
                     alert.dismiss();
                 }
             }

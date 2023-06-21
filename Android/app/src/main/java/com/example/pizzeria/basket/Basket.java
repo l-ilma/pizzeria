@@ -1,13 +1,15 @@
 package com.example.pizzeria.basket;
 
+import com.example.pizzeria.utils.ListUtils;
+
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
+import java.util.stream.Collectors;
 
 public class Basket {
     private static Basket basket;
-    private final Map<Integer, BasketData> basketContent = new HashMap<>();
+    private final List<BasketData> basketContent = new ArrayList<>();
     private Basket(){
     }
 
@@ -20,23 +22,49 @@ public class Basket {
     }
 
     public void addItem(BasketData basketItem) {
-        if(basketContent.containsKey(basketItem.getProduct().staticId)) {
-            basketContent.get(basketItem.getProduct().staticId).incrementQuantity();
-        }
-        else {
-            basketContent.put(basketItem.getProduct().staticId, basketItem);
+        List<BasketData> existingItems =
+                basketContent.stream().filter(i -> i.getProduct().name.equals(basketItem.getProduct().name))
+                        .collect(Collectors.toList());
+        if (existingItems.isEmpty()) {
+            basketContent.add(basketItem);
+        } else {
+            BasketData found = null;
+            for (BasketData existingItem: existingItems) {
+                if (existingItem.getProduct().name.equals("Custom")) {
+                    if (ListUtils.listEqualsIgnoreOrder(
+                            Arrays.asList(basketItem.getProduct().ingredients.split(",")),
+                            Arrays.asList(existingItem.getProduct().ingredients.split(",")))
+                    ) {
+                        found = existingItem;
+                        break;
+                    }
+                } else {
+                    if (existingItem.getProduct().name.equals(basketItem.getProduct().name)) {
+                        found = existingItem;
+                        break;
+                    }
+                }
+            }
+
+            if (found != null) {
+                found.incrementQuantity();
+            } else {
+                basketContent.add(basketItem);
+            }
         }
     }
 
     public BasketData[] getBasketItems(){
-        return basketContent.values().toArray(new BasketData[basketContent.values().size()]);
+        return basketContent.toArray(new BasketData[0]);
     }
 
-    public void updateItemCount(int id, int count) {
-        basketContent.get(id).setQuantity(count);
+    public void updateItemCount(BasketData item, int count) {
+        basketContent.stream().filter(i -> i.getProduct().name.equals(item.getProduct().name))
+                .findFirst()
+                .ifPresent(i -> i.setQuantity(count));
     }
 
-    public void removeItem(int id) {
-        basketContent.remove(id);
+    public void removeItem(BasketData item) {
+        basketContent.remove(item);
     }
 }

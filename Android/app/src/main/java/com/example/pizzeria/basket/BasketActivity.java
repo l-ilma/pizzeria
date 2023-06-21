@@ -53,7 +53,6 @@ public class BasketActivity extends AppCompatActivity {
     public void removeItem(int position) {
         adapter.removeItem(position);
         adapter.notifyItemRemoved(position);
-        adapter.notifyItemRangeChanged(position, Basket.getInstance().getBasketItems().length);
         refreshSumView();
     }
 

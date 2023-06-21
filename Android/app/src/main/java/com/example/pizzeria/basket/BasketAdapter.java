@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.pizzeria.R;
+import com.example.pizzeria.entity.Product;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -43,10 +44,20 @@ public class BasketAdapter extends RecyclerView.Adapter<BasketAdapter.ViewHolder
     @Override
     public void onBindViewHolder(BasketAdapter.ViewHolder holder, int position) {
         final BasketData data = basket.get(position);
-        holder.textView.setText(data.getProduct().name);
-        holder.imageView.setImageResource(data.getProduct().staticId);
+        final Product product = data.getProduct();
+        holder.textView.setText(product.name);
+        holder.imageView.setImageResource(product.staticId);
         holder.numberOfProducts.setText(String.valueOf(data.getQuantity()));
-        holder.numberView.setText(data.getProduct().price + "€");
+        holder.numberView.setText(product.price + "€");
+
+        if (product.name.equals("Custom")) {
+            String toppings = product.ingredients.replace(",", ", ");
+            toppings = toppings.substring(0,1).toUpperCase() + toppings.substring(1).toLowerCase();
+            holder.toppingsCustom.setText(toppings);
+            holder.toppingsCustom.setVisibility(View.VISIBLE);
+        } else {
+            holder.toppingsCustom.setVisibility(View.INVISIBLE);
+        }
     }
 
     @Override
@@ -77,6 +88,7 @@ public class BasketAdapter extends RecyclerView.Adapter<BasketAdapter.ViewHolder
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public ImageView imageView;
         public TextView textView;
+        public TextView toppingsCustom;
         public TextView numberView;
         public RelativeLayout layout;
         public EditText numberOfProducts;
@@ -87,6 +99,7 @@ public class BasketAdapter extends RecyclerView.Adapter<BasketAdapter.ViewHolder
             super(itemView);
             this.imageView = itemView.findViewById(R.id.imageView);
             this.textView = itemView.findViewById(R.id.textView);
+            this.toppingsCustom = itemView.findViewById(R.id.toppingsCustom);
             this.numberView = itemView.findViewById(R.id.numberView);
             layout = itemView.findViewById(R.id.basketLayout);
 
@@ -122,12 +135,12 @@ public class BasketAdapter extends RecyclerView.Adapter<BasketAdapter.ViewHolder
                         return;
                     }
 
-                    Basket.getInstance().updateItemCount(basketItems[getAdapterPosition()].getProduct().staticId, newVal);
+                    Basket.getInstance().updateItemCount(basketItems[getAdapterPosition()], newVal);
                     ((BasketActivity) layout.getContext()).changeItemCount(getAdapterPosition(), newVal);
 
 
                     if (newVal <= 0 && getAdapterPosition() >= 0) {
-                        Basket.getInstance().removeItem(basketItems[getAdapterPosition()].getProduct().staticId);
+                        Basket.getInstance().removeItem(basketItems[getAdapterPosition()]);
                         ((BasketActivity) layout.getContext()).removeItem(getAdapterPosition());
                     }
                 }
