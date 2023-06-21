@@ -42,10 +42,10 @@ public class CheckoutAdapter extends RecyclerView.Adapter<CheckoutAdapter.ViewHo
     @Override
     public void onBindViewHolder(CheckoutAdapter.ViewHolder holder, int position) {
         final BasketData data = basket_content_final.get(position);
-        holder.textView.setText(data.getDescription());
-        holder.imageView.setImageResource(data.getImgId());
+        holder.textView.setText(data.getProduct().name);
+        holder.imageView.setImageResource(data.getProduct().staticId);
         holder.itemNumbers.setText(data.getQuantity() + "x");
-        holder.numberView.setText(data.getPrice() + "€");
+        holder.numberView.setText(data.getProduct().price + "€");
     }
 
     @Override

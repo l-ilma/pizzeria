@@ -71,6 +71,8 @@ public class BasketActivity extends AppCompatActivity {
     }
 
     public void onCheckoutClicked(View view) {
+        Intent intent = new Intent(BasketActivity.this, CheckoutActivity.class);
+        startActivity(intent);
         LiveData<User> loggedInUser = StateManager.getLoggedInUser();
         if(loggedInUser != null){
             Thread finishOrderThread = new Thread(() -> {
@@ -102,8 +104,7 @@ public class BasketActivity extends AppCompatActivity {
             }
         }
 
-        Intent intent = new Intent(BasketActivity.this, CheckoutActivity.class);
-        startActivity(intent);
+
     }
 
     private void setupActionBar() {
