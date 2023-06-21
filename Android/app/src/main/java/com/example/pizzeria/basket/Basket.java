@@ -7,7 +7,7 @@ import java.util.Map;
 
 public class Basket {
     private static Basket basket;
-    private Map<Integer, BasketData> basketContent = new HashMap();
+    private final Map<Integer, BasketData> basketContent = new HashMap<>();
     private Basket(){
     }
 
