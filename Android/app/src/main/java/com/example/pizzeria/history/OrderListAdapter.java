@@ -20,6 +20,7 @@ import com.example.pizzeria.R;
 import com.example.pizzeria.basket.Basket;
 import com.example.pizzeria.basket.BasketActivity;
 import com.example.pizzeria.basket.BasketData;
+import com.example.pizzeria.entity.CustomPizza;
 import com.example.pizzeria.entity.Product;
 import com.example.pizzeria.entity.ProductOrder;
 import com.example.pizzeria.model.OrderWithProducts;
@@ -77,6 +78,11 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
                 stringJoiner.add(String.format("%s %dx", p.name, quantity));
             }
 
+            for (CustomPizza cp : orderWithProducts.customPizzas) {
+                stringJoiner.add(String.format("Custom: %s, %dx", cp.ingredients, cp.quantity));
+                productCountMap.put(cp.name, cp.quantity);
+            }
+
             holder.productsText.setText(stringJoiner.toString());
         });
 
@@ -97,6 +103,11 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
             for(Product product : orderWithProducts1.products){
                 Basket.getInstance().addItem(new BasketData(product,
                         productCountMap.get(product.name)));
+            }
+
+            for(CustomPizza customPizza : orderWithProducts1.customPizzas){
+                Basket.getInstance().addItem(new BasketData(customPizza,
+                        customPizza.quantity));
             }
 
             Intent basketActivity = new Intent(context, BasketActivity.class);
