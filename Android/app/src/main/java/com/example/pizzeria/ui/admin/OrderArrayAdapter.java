@@ -67,6 +67,7 @@ public class OrderArrayAdapter extends BaseAdapter {
 
         OrderWithProducts current = orderWithProductsList.get(position);
         ((TextView) convertView.findViewById(R.id.orderId)).setText(String.valueOf(current.order.id));
+        ((TextView) convertView.findViewById(R.id.price)).setText(String.valueOf(current.order.price));
         ((TextView) convertView.findViewById(R.id.status)).setText(current.order.status.name());
         ((TextView) convertView.findViewById(R.id.orderDate)).setText(DATE_FORMAT.format(current.order.createdAt));
         updatedStatus = current.order.status;
