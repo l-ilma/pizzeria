@@ -23,6 +23,12 @@
             android:layout_height="wrap_content"
             android:text="Margherita 2x, Capriciosa 2x" />
 
+        <TextView
+            android:id="@+id/customPizzas"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Custom pizzas here" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

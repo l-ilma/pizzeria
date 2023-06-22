@@ -4,6 +4,7 @@ import androidx.room.Embedded;
 import androidx.room.Junction;
 import androidx.room.Relation;
 
+import com.example.pizzeria.entity.CustomPizza;
 import com.example.pizzeria.entity.Order;
 import com.example.pizzeria.entity.Product;
 import com.example.pizzeria.entity.ProductOrder;
@@ -24,4 +25,7 @@ public class OrderWithProducts {
             )
     )
     public List<Product> products;
+
+    @Relation(parentColumn = "id", entityColumn = "orderId")
+    public List<CustomPizza> customPizzas;
 }
