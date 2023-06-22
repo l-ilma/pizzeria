@@ -5,7 +5,7 @@ import com.example.pizzeria.entity.Product;
 
 import java.util.List;
 
-public class OrderWithProducts {
+/*public class OrderWithProducts {
     public Order order;
     public List<Product> products;
 
@@ -13,4 +13,4 @@ public class OrderWithProducts {
         this.order = order;
         this.products = products;
     }
-}
+}*/

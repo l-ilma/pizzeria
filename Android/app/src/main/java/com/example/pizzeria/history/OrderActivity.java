@@ -1,11 +1,4 @@
-package com.example.pizzeria;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.view.menu.MenuBuilder;
-import androidx.appcompat.widget.Toolbar;
-import androidx.cardview.widget.CardView;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+package com.example.pizzeria.history;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -15,22 +8,19 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.FrameLayout;
-import android.widget.ListView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.menu.MenuBuilder;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.pizzeria.basket.Basket;
+import com.example.pizzeria.MainActivity;
+import com.example.pizzeria.R;
+import com.example.pizzeria.StateManager;
 import com.example.pizzeria.basket.BasketActivity;
 import com.example.pizzeria.entity.Order;
 import com.example.pizzeria.entity.Product;
-import com.example.pizzeria.entity.ProductOrder;
-import com.example.pizzeria.entity.User;
-import com.example.pizzeria.history.OrderActivity;
-import com.example.pizzeria.history.OrderListAdapter;
-import com.example.pizzeria.menu.MenuFragment;
 import com.example.pizzeria.repository.OrderRepository;
 import com.example.pizzeria.repository.ProductOrderRepository;
 import com.example.pizzeria.repository.ProductRepository;
@@ -41,32 +31,32 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class MainActivity extends AppCompatActivity {
-
-    public OrderListAdapter orderListAdapter;
-
+public class OrderActivity extends AppCompatActivity {
+    private OrderListAdapter orderListAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_order_history);
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
-        loadMenuFragment();
-    }
 
-    void loadMenuFragment() {
-        FrameLayout fragmentContainer = findViewById(R.id.fragment_container);
+        Thread getOrderHistoryThread = new Thread(() -> {
+            getUserOrderHistory();
+        });
 
-        getSupportFragmentManager().beginTransaction()
-                .replace(fragmentContainer.getId(), new MenuFragment())
-                .commit();
-    }
+        getOrderHistoryThread.start();
+        try {
+            getOrderHistoryThread.join();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
 
-    public void onBasketClicked(View view) {
-        Intent intent = new Intent(this, BasketActivity.class);
-        startActivity(intent);
+        RecyclerView orderHistoryView = findViewById(R.id.order_card_view);
+        orderHistoryView.setLayoutManager(new LinearLayoutManager(this));
+        orderHistoryView.setAdapter(orderListAdapter);
     }
 
     @SuppressLint("RestrictedApi")
@@ -83,12 +73,22 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-
+    @SuppressLint("RestrictedApi")
+    private void hideLogoutIfGuest(MenuBuilder m) {
+        if (StateManager.getLoggedInUser().getValue() == null) {
+            MenuItem logoutMenuItem = m.findItem(R.id.logout);
+            logoutMenuItem.setVisible(false);
+            MenuItem ordersMenuItem = m.findItem(R.id.orders);
+            ordersMenuItem.setVisible(false);
+            MenuItem myPizzasMenuItem = m.findItem(R.id.my_pizzas);
+            myPizzasMenuItem.setVisible(false);
+        }
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if(item.getItemId() == R.id.orders){
-            Intent intent = new Intent(MainActivity.this, OrderActivity.class);
+            Intent intent = new Intent(OrderActivity.this, OrderActivity.class);
             startActivity(intent);
             return true;
         } else if (item.getItemId() == R.id.my_pizzas) {
@@ -104,21 +104,19 @@ public class MainActivity extends AppCompatActivity {
         AsyncTask.execute(() -> {
             new UserRepository(getApplicationContext()).logout();
             StateManager.setLoggedInUser(null);
-            Basket.getInstance().emptyBasket();
         });
         Intent intent = new Intent(getApplicationContext(), AuthenticationActivity.class);
         startActivity(intent);
     }
 
-    @SuppressLint("RestrictedApi")
-    private void hideLogoutIfGuest(MenuBuilder m) {
-        if (StateManager.getLoggedInUser().getValue() == null) {
-            MenuItem logoutMenuItem = m.findItem(R.id.logout);
-            logoutMenuItem.setVisible(false);
-            MenuItem ordersMenuItem = m.findItem(R.id.orders);
-            ordersMenuItem.setVisible(false);
-            MenuItem myPizzasMenuItem = m.findItem(R.id.my_pizzas);
-            myPizzasMenuItem.setVisible(false);
-        }
+    public void onBasketClicked(View view) {
+        Intent intent = new Intent(this, BasketActivity.class);
+        startActivity(intent);
     }
+
+    private void getUserOrderHistory(){
+        OrderRepository orderRepository = new OrderRepository(getApplicationContext());
+        orderListAdapter = new OrderListAdapter(getApplicationContext(), orderRepository.loadAllOrdersWithProductsStatic());
+    }
+
 }

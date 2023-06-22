@@ -32,6 +32,10 @@ public class OrderRepository {
         return orderDao.loadAllOrdersWithProducts();
     }
 
+    public List<OrderWithProducts> loadAllOrdersWithProductsStatic() {
+        return orderDao.loadAllOrdersWithProductsStatic();
+    }
+
     public void updateStatus(long id, Status status) {
         orderDao.updateStatus(id, status);
     }

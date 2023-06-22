@@ -28,6 +28,10 @@ public interface OrderDao {
     @Query("SELECT * from `order`")
     public LiveData<List<OrderWithProducts>> loadAllOrdersWithProducts();
 
+    @Transaction
+    @Query("SELECT * from `order`")
+    public List<OrderWithProducts> loadAllOrdersWithProductsStatic();
+
     @Query("UPDATE `order` SET status = :status WHERE id = :id")
     public void updateStatus(long id, Status status);
 }

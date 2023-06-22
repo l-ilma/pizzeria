@@ -87,6 +87,10 @@ public class Basket {
         basketContent.get(index).setQuantity(count);
     }
 
+    public void clearItems(){
+        basketContent.clear();
+    }
+
     public void removeItem(BasketData item) {
         basketContent.remove(item);
     }

@@ -54,6 +54,8 @@ public class CheckoutActivity extends AppCompatActivity {
         editTextPLZ = findViewById(R.id.editTextPLZ);
         editTextNote = findViewById(R.id.editNoteForDriver);
 
+        preSetDeliveryInfoIfExists();
+
         CheckoutAdapter adapter = new CheckoutAdapter(Basket.getInstance().getUniqueBasketItems());
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -70,6 +72,24 @@ public class CheckoutActivity extends AppCompatActivity {
                 onOrderClick();
             }
         });
+    }
+
+    private void preSetDeliveryInfoIfExists(){
+        String preSetAddress = getIntent().getStringExtra("address");
+        String preSetZip = getIntent().getStringExtra("zip");
+        String preSetNote = getIntent().getStringExtra("note");
+
+        if(preSetAddress != null){
+            editTextAddress.setText(preSetAddress);
+        }
+
+        if(preSetZip != null){
+            editTextPLZ.setText(preSetZip);
+        }
+
+        if(preSetNote != null){
+            editTextNote.setText(preSetNote);
+        }
     }
 
     private void onOrderClick() {
@@ -114,11 +134,13 @@ public class CheckoutActivity extends AppCompatActivity {
 
                 List<ProductOrder> orderProducts = new ArrayList<>();
                 for (BasketData basketEntry : Basket.getInstance().getBasketItems()) {
-                    orderProducts.add(new ProductOrder(orderId, basketEntry.getProduct().id, basketEntry.getQuantity()));
+
                     if (basketEntry.getProduct().name.equals("Custom")) {
                         CustomPizzaRepository customPizzaRepository = new CustomPizzaRepository(getApplicationContext());
                         customPizzaRepository.insertOne(new CustomPizza(basketEntry.getProduct(), loggedInUser.getValue().id));
                     }
+
+                    orderProducts.add(new ProductOrder(orderId, basketEntry.getProduct().id, basketEntry.getQuantity()));
                 }
 
                 productOrderRepository.insertAll(orderProducts);

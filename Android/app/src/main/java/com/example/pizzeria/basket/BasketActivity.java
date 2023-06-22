@@ -23,6 +23,10 @@ public class BasketActivity extends AppCompatActivity {
     private BasketAdapter adapter;
     private TextView sumView;
 
+    public String preSetAddress;
+    public String preSetNote;
+    public String preSetZip;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,6 +35,11 @@ public class BasketActivity extends AppCompatActivity {
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         adapter = new BasketAdapter(Basket.getInstance().getBasketItems());
         Basket.getInstance().setAdapter(adapter);
+
+        preSetAddress = getIntent().getStringExtra("address");
+        preSetZip = getIntent().getStringExtra("zip");
+        preSetNote = getIntent().getStringExtra("note");
+
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
@@ -68,6 +77,12 @@ public class BasketActivity extends AppCompatActivity {
         }
 
         Intent intent = new Intent(BasketActivity.this, CheckoutActivity.class);
+        if(preSetAddress != null){
+            intent.putExtra("address", preSetAddress);
+            intent.putExtra("zip", preSetZip);
+            intent.putExtra("note", preSetNote);
+        }
+
         startActivity(intent);
     }
 

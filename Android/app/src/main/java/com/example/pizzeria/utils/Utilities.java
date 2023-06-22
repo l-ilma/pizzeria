@@ -1,12 +1,17 @@
 package com.example.pizzeria.utils;
 
 import com.example.pizzeria.R;
+import com.example.pizzeria.basket.BasketData;
 import com.example.pizzeria.entity.Product;
+import com.example.pizzeria.model.OrderWithProducts;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.StringJoiner;
 
 public class Utilities {
     public static List<Float> pizzaPrices = new ArrayList(Arrays.asList(6.99f, 7.99f, 8.99f,
@@ -100,5 +105,38 @@ public class Utilities {
         }
 
         return products;
+    }
+
+    public static String getProductsAsString(OrderWithProducts orderWithProducts) {
+        HashMap<String, Integer> productCountMap = new HashMap<>();
+
+        for (Product p : orderWithProducts.products) {
+            if (productCountMap.containsKey(p.name)) {
+                productCountMap.put(p.name, productCountMap.get(p.name) + 1);
+            } else {
+                productCountMap.put(p.name, 1);
+            }
+        }
+
+        StringJoiner productStringJoiner = new StringJoiner(", ");
+        for (Map.Entry entry : productCountMap.entrySet()) {
+            productStringJoiner.add(String.format("%s %dx", entry.getKey(), entry.getValue()));
+        }
+
+        return productStringJoiner.toString();
+    }
+
+    public static HashMap<String, Integer> getProductCounts(OrderWithProducts orderWithProducts){
+        HashMap<String, Integer> productCountMap = new HashMap<>();
+
+        for (Product p : orderWithProducts.products) {
+            if (productCountMap.containsKey(p.name)) {
+                productCountMap.put(p.name, productCountMap.get(p.name) + 1);
+            } else {
+                productCountMap.put(p.name, 1);
+            }
+        }
+
+        return productCountMap;
     }
 }
