@@ -15,13 +15,16 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.pizzeria.R;
+import com.example.pizzeria.StateManager;
 import com.example.pizzeria.basket.Basket;
 import com.example.pizzeria.basket.BasketActivity;
 import com.example.pizzeria.basket.BasketData;
 import com.example.pizzeria.entity.CustomPizza;
+import com.example.pizzeria.entity.Order;
 import com.example.pizzeria.entity.Product;
 import com.example.pizzeria.entity.ProductOrder;
 import com.example.pizzeria.model.OrderWithProducts;
+import com.example.pizzeria.repository.OrderRepository;
 import com.example.pizzeria.repository.ProductOrderRepository;
 import com.example.pizzeria.utils.Utilities;
 
@@ -32,6 +35,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.StringJoiner;
+import java.util.stream.Collectors;
 
 public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.ViewHolder> {
     public List<OrderWithProducts> items = new ArrayList<>();
@@ -62,7 +66,12 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
         Map<String, Integer> productCountMap = new HashMap<>();
         Thread setupProductCountThread = new Thread(() -> {
             ProductOrderRepository productOrderRepository = new ProductOrderRepository(context);
+            OrderRepository orderRepository = new OrderRepository(context);
+            List<Long> userOrders = orderRepository
+                    .getUserOrders(StateManager.getLoggedInUser().getValue().id)
+                    .stream().map(o -> o.id).collect(Collectors.toList());
             List<ProductOrder> refs = productOrderRepository.getAllProductOrderCrossRefs();
+            refs = refs.stream().filter(op -> userOrders.contains(op.orderId)).collect(Collectors.toList());
             StringJoiner stringJoiner = new StringJoiner(", ");
 
             for (Product p : orderWithProducts.products) {

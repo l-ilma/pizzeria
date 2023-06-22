@@ -5,6 +5,7 @@ import android.content.Context;
 import androidx.lifecycle.LiveData;
 
 import com.example.pizzeria.AppDatabase;
+import com.example.pizzeria.StateManager;
 import com.example.pizzeria.dao.OrderDao;
 import com.example.pizzeria.entity.Order;
 import com.example.pizzeria.model.OrderWithProducts;
@@ -33,7 +34,7 @@ public class OrderRepository {
     }
 
     public List<OrderWithProducts> loadAllOrdersWithProductsStatic() {
-        return orderDao.loadAllOrdersWithProductsStatic();
+        return orderDao.loadAllOrdersWithProductsStatic(StateManager.getLoggedInUser().getValue().id);
     }
 
     public void updateStatus(long id, Status status) {

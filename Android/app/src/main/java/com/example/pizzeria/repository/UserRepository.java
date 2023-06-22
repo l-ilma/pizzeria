@@ -24,7 +24,7 @@ public class UserRepository {
 
         User user = new User(username, email, password, true, false);
         userDao.insert(user);
-        return user;
+        return userDao.findByCredentials(email, password);
     }
 
     public User login(String email, String password) throws Exception {

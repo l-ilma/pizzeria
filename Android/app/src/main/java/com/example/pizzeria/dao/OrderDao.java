@@ -29,8 +29,8 @@ public interface OrderDao {
     public LiveData<List<OrderWithProducts>> loadAllOrdersWithProducts();
 
     @Transaction
-    @Query("SELECT * from `order`")
-    public List<OrderWithProducts> loadAllOrdersWithProductsStatic();
+    @Query("SELECT * from `order` where userId = :id")
+    public List<OrderWithProducts> loadAllOrdersWithProductsStatic(long id);
 
     @Query("UPDATE `order` SET status = :status WHERE id = :id")
     public void updateStatus(long id, Status status);
