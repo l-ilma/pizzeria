@@ -4,17 +4,56 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/border"
-    android:orientation="vertical">
+    android:orientation="horizontal">
+
 
     <LinearLayout
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:orientation="vertical">
+        android:id="@+id/date_products"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="5dp"
+        android:orientation="horizontal">
+
         <TextView
+            android:id="@+id/orderDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="1. Some Text"/>
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:text="20.01.2020"/>
+
+        <TextView
+            android:id="@+id/orderedProducts"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxWidth="160dp"
+            android:layout_marginLeft="20dp"
+            android:textSize="16sp"
+            android:text="pizza,pizza,pizza,pizza,pizza,pizza"
+            android:textStyle="italic" />
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/orderPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/date_products"
+        android:textSize="18sp"
+        android:text="20$"
+        android:textStyle="bold"
+        android:textColor="@color/green"
+        android:layout_centerVertical="true" />
+
+    <ImageButton
+        android:layout_toEndOf="@id/orderPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ic_redo_icon"/>
+
+
+
+
 
 
 </RelativeLayout>
