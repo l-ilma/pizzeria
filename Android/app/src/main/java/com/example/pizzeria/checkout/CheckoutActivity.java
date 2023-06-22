@@ -38,6 +38,7 @@ public class CheckoutActivity extends AppCompatActivity {
     BasketAdapter basketAdapter;
     EditText editTextAddress;
     EditText editTextPLZ;
+    EditText editTextNote;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +50,7 @@ public class CheckoutActivity extends AppCompatActivity {
         RecyclerView recyclerView = findViewById(R.id.recyclerView_checkout);
         editTextAddress = findViewById(R.id.editTextAddress);
         editTextPLZ = findViewById(R.id.editTextPLZ);
+        editTextNote = findViewById(R.id.editNoteForDriver);
 
         CheckoutAdapter adapter = new CheckoutAdapter(Basket.getInstance().getUniqueBasketItems());
 
@@ -90,8 +92,16 @@ public class CheckoutActivity extends AppCompatActivity {
                 ProductOrderRepository productOrderRepository = new ProductOrderRepository(getApplicationContext());
                 OrderRepository orderRepository = new OrderRepository(getApplicationContext());
 
-                long orderId = orderRepository.insertOne(new Order(loggedInUser.getValue().id,
-                        Basket.getInstance().getAdapter().getSumOfCosts(), Status.ORDERED));
+                long orderId = orderRepository.insertOne(
+                        new Order(
+                                loggedInUser.getValue().id,
+                                Basket.getInstance().getAdapter().getSumOfCosts(),
+                                Status.ORDERED,
+                                editTextAddress.getText().toString(),
+                                editTextPLZ.getText().toString(),
+                                editTextNote.getText().toString()
+                        )
+                );
 
                 List<ProductOrder> orderProducts = new ArrayList<>();
                 for (BasketData basketEntry : Basket.getInstance().getBasketItems()) {
