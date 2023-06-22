@@ -21,7 +21,9 @@ import com.example.pizzeria.basket.Basket;
 import com.example.pizzeria.basket.BasketActivity;
 import com.example.pizzeria.basket.BasketData;
 import com.example.pizzeria.entity.Product;
+import com.example.pizzeria.entity.ProductOrder;
 import com.example.pizzeria.model.OrderWithProducts;
+import com.example.pizzeria.repository.ProductOrderRepository;
 import com.example.pizzeria.utils.Utilities;
 
 import java.text.DecimalFormat;
@@ -58,14 +60,38 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
         DecimalFormat decimalFormat = new DecimalFormat("0.00");
         holder.dateText.setText(dateFormat.format(orderWithProducts.order.createdAt));
         holder.priceText.setText(decimalFormat.format(orderWithProducts.order.price) + "€");
-        holder.productsText.setText(Utilities.getProductsAsString(orderWithProducts));
+
+        Map<String, Integer> productCountMap = new HashMap<>();
+        Thread setupProductCountThread = new Thread(() -> {
+            ProductOrderRepository productOrderRepository = new ProductOrderRepository(context);
+            List<ProductOrder> refs = productOrderRepository.getAllProductOrderCrossRefs();
+            StringJoiner stringJoiner = new StringJoiner(", ");
+
+            for (Product p : orderWithProducts.products) {
+                int quantity = refs.stream()
+                        .filter(x -> x.orderId == orderWithProducts.order.id && x.productId == p.id)
+                        .findFirst()
+                        .get().quantity;
+
+                productCountMap.put(p.name, quantity);
+                stringJoiner.add(String.format("%s %dx", p.name, quantity));
+            }
+
+            holder.productsText.setText(stringJoiner.toString());
+        });
+
+        setupProductCountThread.start();
+        try {
+            setupProductCountThread.join();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
         holder.statusText.setText(orderWithProducts.order.status.name());
         holder.addressText.setText(orderWithProducts.order.address);
         holder.plzText.setText(orderWithProducts.order.zip);
         holder.noteText.setText(orderWithProducts.order.note);
         holder.redoOrderButton.setOnClickListener(view -> {
             OrderWithProducts orderWithProducts1 = items.get(holder.getAdapterPosition());
-            HashMap<String, Integer> productCountMap = Utilities.getProductCounts(orderWithProducts1);
 
             Basket.getInstance().clearItems();
             for(Product product : orderWithProducts1.products){
