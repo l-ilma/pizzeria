@@ -86,7 +86,11 @@ public class OrderArrayAdapter extends BaseAdapter {
 
         View view = LayoutInflater.from(context).inflate(R.layout.order_dialog_layout, parent, false);
         ((TextView) view.findViewById(R.id.price)).setText(String.valueOf(orderWithProducts.order.price));
+        ((TextView) view.findViewById(R.id.addressWithZip)).setText(String.format("%s, %s", orderWithProducts.order.address, orderWithProducts.order.zip));
 
+
+        String note = orderWithProducts.order.note == null ? "Empty" : orderWithProducts.order.note;
+        ((TextView) view.findViewById(R.id.note)).setText(note);
 
         AsyncTask.execute(() -> {
             List<ProductOrder> refs = productOrderRepository.getAllProductOrderCrossRefs();
