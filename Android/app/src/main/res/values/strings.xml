@@ -31,5 +31,11 @@
     <string name="validation_invalid_email">Invalid email</string>
     <string name="validation_invalid_password">Password should be at least 8 characters long</string>
     <string name="choose_toppings">Choose up to 5 toppings:</string>
+    <string name="delivery">Delivery</string>
+    <string name="in_process">In process</string>
+    <string name="ordered">Ordered</string>
+    <string name="change_order_status">Change order status:</string>
+    <string name="selected_products">Selected Products:</string>
+    <string name="price">Price:</string>
     <string name="make_custom_pizza">"Press to make your own pizza!"</string>
 </resources>

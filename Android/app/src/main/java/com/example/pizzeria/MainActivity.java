@@ -1,24 +1,22 @@
 package com.example.pizzeria;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.view.menu.MenuBuilder;
-import androidx.appcompat.widget.Toolbar;
-
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.FrameLayout;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.menu.MenuBuilder;
+import androidx.appcompat.widget.Toolbar;
 
 import com.example.pizzeria.basket.BasketActivity;
 import com.example.pizzeria.entity.Order;
 import com.example.pizzeria.entity.Product;
-import com.example.pizzeria.entity.ProductOrder;
-import com.example.pizzeria.entity.User;
 import com.example.pizzeria.history.OrderListAdapter;
 import com.example.pizzeria.history.OrderWithProducts;
 import com.example.pizzeria.menu.MenuFragment;
@@ -33,30 +31,18 @@ import java.util.List;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
+
     public OrderListAdapter orderListAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        doLoggedInUserLookup();
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
         loadMenuFragment();
-    }
-
-
-
-    private void doLoggedInUserLookup() {
-        AsyncTask.execute(() -> {
-            User loggedInUser = new UserRepository(getApplicationContext()).getLoggedInUser();
-            StateManager.setLoggedInUser(loggedInUser);
-            if (loggedInUser == null) {
-                Intent intent = new Intent(getApplicationContext(), AuthenticationActivity.class);
-                startActivity(intent);
-            }
-        });
     }
 
     void loadMenuFragment() {
@@ -78,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.settings_menu, menu);
 
-        if(menu instanceof MenuBuilder){
+        if (menu instanceof MenuBuilder) {
             MenuBuilder m = (MenuBuilder) menu;
             hideLogoutIfGuest(m);
             m.setOptionalIconsVisible(true);
@@ -86,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-    private void getUserOrderHistory(){
+    private void getUserOrderHistory() {
         OrderRepository orderRepository = new OrderRepository(getApplicationContext());
         ProductOrderRepository productOrderRepository = new ProductOrderRepository(getApplicationContext());
         ProductRepository productRepository = new ProductRepository(getApplicationContext());
@@ -95,9 +81,9 @@ public class MainActivity extends AppCompatActivity {
 
         List<OrderWithProducts> ordersWithProducts = new ArrayList<>();
         List<Product> products = new ArrayList<>();
-        for(Order order : orders){
+        for (Order order : orders) {
             List<Long> productIds = productOrderRepository.getProductsForOrder(order.id);
-            for(Long id : productIds){
+            for (Long id : productIds) {
                 Product product = productRepository.getProduct(id);
                 products.add(product);
             }
@@ -110,13 +96,11 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId() == R.id.orders){
+        if (item.getItemId() == R.id.orders) {
 
-        }
-        else if(item.getItemId() == R.id.my_pizzas){
+        } else if (item.getItemId() == R.id.my_pizzas) {
 
-        }
-        else if (item.getItemId() == R.id.logout && StateManager.getLoggedInUser() != null) {
+        } else if (item.getItemId() == R.id.logout && StateManager.getLoggedInUser() != null) {
             logout();
             return true;
         }

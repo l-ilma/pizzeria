@@ -23,7 +23,6 @@ import com.example.pizzeria.MainActivity;
 import com.example.pizzeria.R;
 import com.example.pizzeria.StateManager;
 import com.example.pizzeria.basket.Basket;
-import com.example.pizzeria.basket.BasketActivity;
 import com.example.pizzeria.basket.BasketAdapter;
 import com.example.pizzeria.basket.BasketData;
 import com.example.pizzeria.entity.CustomPizza;
@@ -33,6 +32,7 @@ import com.example.pizzeria.entity.User;
 import com.example.pizzeria.repository.CustomPizzaRepository;
 import com.example.pizzeria.repository.OrderRepository;
 import com.example.pizzeria.repository.ProductOrderRepository;
+import com.example.pizzeria.utils.Status;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -79,7 +79,7 @@ public class CheckoutActivity extends AppCompatActivity {
                 OrderRepository orderRepository = new OrderRepository(getApplicationContext());
 
                 long orderId = orderRepository.insertOne(new Order(loggedInUser.getValue().id,
-                        Basket.getInstance().getAdapter().getSumOfCosts()));
+                        Basket.getInstance().getAdapter().getSumOfCosts(), Status.ORDERED));
 
                 List<ProductOrder> orderProducts = new ArrayList<>();
                 for(BasketData basketEntry : Basket.getInstance().getBasketItems()){

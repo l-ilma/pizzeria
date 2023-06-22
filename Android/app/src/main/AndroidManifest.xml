@@ -9,9 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Pizzeria">
-        <activity android:name=".ui.authentication.AuthenticationActivity"
-            android:exported="true" />
-        <activity android:name=".MainActivity"
+        <activity
+            android:name=".ui.authentication.AuthenticationActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,6 +24,19 @@
         <activity android:name=".Checkout.CheckoutActivity"
             android:windowSoftInputMode="adjustPan"
             android:exported="true"/>
+        <activity
+            android:name=".ui.admin.AdminActivity"
+            android:exported="true" />
+        <activity
+            android:name=".MainActivity"
+            android:exported="true" />
+        <activity
+            android:name=".basket.BasketActivity"
+            android:exported="true" />
+        <activity
+            android:name=".Checkout.CheckoutActivity"
+            android:exported="true"
+            android:windowSoftInputMode="adjustPan" />
     </application>
 
 </manifest>
