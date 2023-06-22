@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.menu.MenuBuilder;
 import androidx.appcompat.widget.Toolbar;
 
+import com.example.pizzeria.basket.Basket;
 import com.example.pizzeria.basket.BasketActivity;
 import com.example.pizzeria.entity.Order;
 import com.example.pizzeria.entity.Product;
@@ -111,6 +112,7 @@ public class MainActivity extends AppCompatActivity {
         AsyncTask.execute(() -> {
             new UserRepository(getApplicationContext()).logout();
             StateManager.setLoggedInUser(null);
+            Basket.getInstance().emptyBasket();
         });
         Intent intent = new Intent(getApplicationContext(), AuthenticationActivity.class);
         startActivity(intent);

@@ -13,6 +13,7 @@ import androidx.appcompat.view.menu.MenuBuilder;
 
 import com.example.pizzeria.R;
 import com.example.pizzeria.StateManager;
+import com.example.pizzeria.basket.Basket;
 import com.example.pizzeria.databinding.ActivityAdminBinding;
 import com.example.pizzeria.repository.OrderRepository;
 import com.example.pizzeria.repository.UserRepository;
@@ -60,6 +61,7 @@ public class AdminActivity extends AppCompatActivity {
         AsyncTask.execute(() -> {
             new UserRepository(getApplicationContext()).logout();
             StateManager.setLoggedInUser(null);
+            Basket.getInstance().emptyBasket();
         });
         Intent intent = new Intent(getApplicationContext(), AuthenticationActivity.class);
         startActivity(intent);

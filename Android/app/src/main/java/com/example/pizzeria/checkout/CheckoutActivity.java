@@ -20,6 +20,7 @@ import com.example.pizzeria.MainActivity;
 import com.example.pizzeria.R;
 import com.example.pizzeria.StateManager;
 import com.example.pizzeria.basket.Basket;
+import com.example.pizzeria.basket.BasketActivity;
 import com.example.pizzeria.basket.BasketAdapter;
 import com.example.pizzeria.basket.BasketData;
 import com.example.pizzeria.entity.CustomPizza;
@@ -29,6 +30,7 @@ import com.example.pizzeria.entity.User;
 import com.example.pizzeria.repository.CustomPizzaRepository;
 import com.example.pizzeria.repository.OrderRepository;
 import com.example.pizzeria.repository.ProductOrderRepository;
+import com.example.pizzeria.ui.authentication.AuthenticationActivity;
 import com.example.pizzeria.utils.Status;
 
 import java.util.ArrayList;
@@ -85,7 +87,14 @@ public class CheckoutActivity extends AppCompatActivity {
         }
 
         LiveData<User> loggedInUser = StateManager.getLoggedInUser();
-        if (loggedInUser != null) {
+
+        if (loggedInUser.getValue() == null) {
+            Toast.makeText(this, "You must log in or create an account to proceed", Toast.LENGTH_LONG).show();
+            StateManager.authenticationRequested = true;
+            Intent intent = new Intent(CheckoutActivity.this, AuthenticationActivity.class);
+            startActivity(intent);
+            return;
+        } else {
             Thread finishOrderThread = new Thread(() -> {
                 ProductOrderRepository productOrderRepository = new ProductOrderRepository(getApplicationContext());
                 OrderRepository orderRepository = new OrderRepository(getApplicationContext());
@@ -143,7 +152,7 @@ public class CheckoutActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                onBackPressed();
+                startActivity(new Intent(this, BasketActivity.class));
                 break;
         }
         return true;

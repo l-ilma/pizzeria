@@ -8,6 +8,8 @@ import com.example.pizzeria.entity.User;
 public class StateManager {
     private static final MutableLiveData<User> loggedInUser = new MutableLiveData<>(null);
 
+    public static boolean authenticationRequested = false;
+
     public static void setLoggedInUser(User user) {
         loggedInUser.postValue(user);
     }

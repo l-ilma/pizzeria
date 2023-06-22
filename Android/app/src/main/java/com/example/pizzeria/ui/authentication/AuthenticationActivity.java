@@ -18,6 +18,7 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.example.pizzeria.MainActivity;
 import com.example.pizzeria.R;
 import com.example.pizzeria.StateManager;
+import com.example.pizzeria.checkout.CheckoutActivity;
 import com.example.pizzeria.databinding.ActivityAuthenticationBinding;
 import com.example.pizzeria.entity.User;
 import com.example.pizzeria.repository.UserRepository;
@@ -167,7 +168,12 @@ public class AuthenticationActivity extends AppCompatActivity {
         if (user.isAdmin) {
             startActivity(new Intent(getApplicationContext(), AdminActivity.class));
         } else {
-            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+            if (StateManager.authenticationRequested) {
+                startActivity(new Intent(getApplicationContext(), CheckoutActivity.class));
+                StateManager.authenticationRequested = false;
+            } else {
+                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+            }
         }
     }
 }

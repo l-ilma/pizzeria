@@ -13,6 +13,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.pizzeria.MainActivity;
 import com.example.pizzeria.checkout.CheckoutActivity;
 import com.example.pizzeria.R;
 import java.util.List;
@@ -83,7 +84,7 @@ public class BasketActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                onBackPressed();
+                startActivity(new Intent(this, MainActivity.class));
                 break;
         }
         return true;
