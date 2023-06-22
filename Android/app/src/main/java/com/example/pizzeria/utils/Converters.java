@@ -14,4 +14,14 @@ public class Converters {
     public static Long dateToTimestamp(Date date) {
         return date == null ? null : date.getTime();
     }
+
+    @TypeConverter
+    public static String fromStatus(Status status) {
+        return status.name();
+    }
+
+    @TypeConverter
+    public static Status toStatus(String status) {
+        return Status.valueOf(status);
+    }
 }

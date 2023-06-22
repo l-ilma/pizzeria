@@ -24,4 +24,8 @@ public interface ProductDao {
     @Transaction
     @Query("SELECT * from product WHERE pizza = 0")
     public List<Product> getAllDrinks();
+
+    @Transaction
+    @Query("SELECT * from product WHERE id=:id")
+    public Product getProduct(long id);
 }

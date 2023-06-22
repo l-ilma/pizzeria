@@ -8,4 +8,9 @@ import java.util.List;
 public class OrderWithProducts {
     public Order order;
     public List<Product> products;
+
+    public OrderWithProducts(Order order, List<Product> products) {
+        this.order = order;
+        this.products = products;
+    }
 }

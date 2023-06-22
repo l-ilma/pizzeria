@@ -17,4 +17,8 @@ public class ProductOrderRepository {
     public void insertAll(List<ProductOrder> productOrders){
         productOrderDao.insertAll(productOrders);
     }
+
+    public List<Long> getProductsForOrder(long orderId){
+        return productOrderDao.getProductsForOrder(orderId);
+    }
 }
