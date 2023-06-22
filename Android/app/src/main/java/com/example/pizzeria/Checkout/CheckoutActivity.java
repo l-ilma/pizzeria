@@ -1,4 +1,3 @@
-
 package com.example.pizzeria.Checkout;
 
 import android.content.Intent;
@@ -9,15 +8,12 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.widget.Toolbar;
-;
-
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 
 import com.example.pizzeria.MainActivity;
 import com.example.pizzeria.R;
@@ -36,6 +32,8 @@ import com.example.pizzeria.utils.Status;
 
 import java.util.ArrayList;
 import java.util.List;
+
+;
 
 
 public class CheckoutActivity extends AppCompatActivity {
@@ -73,7 +71,7 @@ public class CheckoutActivity extends AppCompatActivity {
     private void onBuyClick() {
 
         LiveData<User> loggedInUser = StateManager.getLoggedInUser();
-        if(loggedInUser != null){
+        if (loggedInUser != null) {
             Thread finishOrderThread = new Thread(() -> {
                 ProductOrderRepository productOrderRepository = new ProductOrderRepository(getApplicationContext());
                 OrderRepository orderRepository = new OrderRepository(getApplicationContext());
@@ -82,9 +80,9 @@ public class CheckoutActivity extends AppCompatActivity {
                         Basket.getInstance().getAdapter().getSumOfCosts(), Status.ORDERED));
 
                 List<ProductOrder> orderProducts = new ArrayList<>();
-                for(BasketData basketEntry : Basket.getInstance().getBasketItems()){
-                    orderProducts.add(new ProductOrder(orderId, basketEntry.getProduct().id));
-                    if(basketEntry.getProduct().name.equals("Custom")){
+                for (BasketData basketEntry : Basket.getInstance().getBasketItems()) {
+                    orderProducts.add(new ProductOrder(orderId, basketEntry.getProduct().id, basketEntry.getQuantity()));
+                    if (basketEntry.getProduct().name.equals("Custom")) {
                         CustomPizzaRepository customPizzaRepository = new CustomPizzaRepository(getApplicationContext());
                         customPizzaRepository.insertOne(new CustomPizza(basketEntry.getProduct(), loggedInUser.getValue().id));
                     }
@@ -109,14 +107,14 @@ public class CheckoutActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private void showEndSum(){
+    private void showEndSum() {
         EndSum = findViewById(R.id.sum_total);
-        BasketAdapter basket_adapter =  Basket.getInstance().getAdapter();
+        BasketAdapter basket_adapter = Basket.getInstance().getAdapter();
 
         EndSum.setText(String.format("%.2f", basket_adapter.getSumOfCosts()) + "€");
     }
 
-    private void createActionToolbar(){
+    private void createActionToolbar() {
         Toolbar bar = findViewById(R.id.toolbar_checkout);
         setSupportActionBar(bar);
         ActionBar actionBar = getSupportActionBar();
@@ -136,9 +134,6 @@ public class CheckoutActivity extends AppCompatActivity {
         }
         return true;
     }
-
-
-
 
 
 }

@@ -12,8 +12,10 @@ import android.widget.TextView;
 
 import com.example.pizzeria.R;
 import com.example.pizzeria.entity.Product;
+import com.example.pizzeria.entity.ProductOrder;
 import com.example.pizzeria.model.OrderWithProducts;
 import com.example.pizzeria.repository.OrderRepository;
+import com.example.pizzeria.repository.ProductOrderRepository;
 import com.example.pizzeria.utils.Status;
 
 import java.text.DateFormat;
@@ -30,6 +32,7 @@ public class OrderArrayAdapter extends BaseAdapter {
     private Context context;
 
     private OrderRepository orderRepository;
+    private ProductOrderRepository productOrderRepository;
 
     private Status updatedStatus;
 
@@ -37,6 +40,7 @@ public class OrderArrayAdapter extends BaseAdapter {
         this.context = context;
         this.orderWithProductsList = orderWithProductsList;
         orderRepository = new OrderRepository(context);
+        productOrderRepository = new ProductOrderRepository(context);
     }
 
     @Override
@@ -81,7 +85,24 @@ public class OrderArrayAdapter extends BaseAdapter {
 
         View view = LayoutInflater.from(context).inflate(R.layout.order_dialog_layout, parent, false);
         ((TextView) view.findViewById(R.id.price)).setText(String.valueOf(orderWithProducts.order.price));
-        ((TextView) view.findViewById(R.id.products)).setText(getProductsAsString(orderWithProducts));
+
+
+        AsyncTask.execute(() -> {
+            List<ProductOrder> refs = productOrderRepository.getAllProductOrderCrossRefs();
+            StringJoiner stringJoiner = new StringJoiner(", ");
+
+            for (Product p : orderWithProducts.products) {
+                int quantity = refs.stream()
+                        .filter(x -> x.orderId == orderWithProducts.order.id && x.productId == p.id)
+                        .findFirst()
+                        .get().quantity;
+
+                stringJoiner.add(String.format("%s %d", p.name, quantity));
+            }
+
+            ((TextView) view.findViewById(R.id.products)).setText(stringJoiner.toString());
+        });
+
 
         Status orderStatus = orderWithProducts.order.status;
 
@@ -122,14 +143,6 @@ public class OrderArrayAdapter extends BaseAdapter {
 
     private String getProductsAsString(OrderWithProducts orderWithProducts) {
         HashMap<String, Integer> productCountMap = new HashMap<>();
-
-        for (Product p : orderWithProducts.products) {
-            if (productCountMap.containsKey(p.name)) {
-                productCountMap.put(p.name, productCountMap.get(p.name) + 1);
-            } else {
-                productCountMap.put(p.name, 1);
-            }
-        }
 
         StringJoiner productStringJoiner = new StringJoiner(", ");
         for (Map.Entry entry : productCountMap.entrySet()) {

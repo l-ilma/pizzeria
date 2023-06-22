@@ -10,15 +10,20 @@ import java.util.List;
 
 public class ProductOrderRepository {
     final ProductOrderDao productOrderDao;
-    public ProductOrderRepository(Context context){
+
+    public ProductOrderRepository(Context context) {
         productOrderDao = AppDatabase.getInstance(context).productOrderDao();
     }
 
-    public void insertAll(List<ProductOrder> productOrders){
+    public void insertAll(List<ProductOrder> productOrders) {
         productOrderDao.insertAll(productOrders);
     }
 
-    public List<Long> getProductsForOrder(long orderId){
+    public List<Long> getProductsForOrder(long orderId) {
         return productOrderDao.getProductsForOrder(orderId);
+    }
+
+    public List<ProductOrder> getAllProductOrderCrossRefs() {
+        return productOrderDao.getAllProductOrderCrossRefs();
     }
 }
