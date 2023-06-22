@@ -4,10 +4,6 @@
         android:icon="@drawable/ic_order"
         android:title="Orders"
         app:showAsAction="withText" />
-    <item android:id="@+id/my_pizzas"
-        android:icon="@drawable/ic_order"
-        android:title="My Pizzas"
-        app:showAsAction="withText" />
     <item android:id="@+id/logout"
         android:icon="@drawable/baseline_logout_24"
         android:title="@string/logout"

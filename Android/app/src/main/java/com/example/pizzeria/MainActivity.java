@@ -1,12 +1,5 @@
 package com.example.pizzeria;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.view.menu.MenuBuilder;
-import androidx.appcompat.widget.Toolbar;
-import androidx.cardview.widget.CardView;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -16,7 +9,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.ListView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.menu.MenuBuilder;
@@ -24,21 +16,12 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.example.pizzeria.basket.Basket;
 import com.example.pizzeria.basket.BasketActivity;
-import com.example.pizzeria.entity.Order;
-import com.example.pizzeria.entity.Product;
-import com.example.pizzeria.entity.ProductOrder;
-import com.example.pizzeria.entity.User;
 import com.example.pizzeria.history.OrderActivity;
 import com.example.pizzeria.history.OrderListAdapter;
 import com.example.pizzeria.menu.MenuFragment;
-import com.example.pizzeria.repository.OrderRepository;
-import com.example.pizzeria.repository.ProductOrderRepository;
-import com.example.pizzeria.repository.ProductRepository;
 import com.example.pizzeria.repository.UserRepository;
 import com.example.pizzeria.ui.authentication.AuthenticationActivity;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
@@ -84,15 +67,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId() == R.id.orders){
+        if (item.getItemId() == R.id.orders) {
             Intent intent = new Intent(MainActivity.this, OrderActivity.class);
             startActivity(intent);
             return true;
-        } else if (item.getItemId() == R.id.my_pizzas) {
-
         } else if (item.getItemId() == R.id.logout && StateManager.getLoggedInUser() != null) {
             logout();
             return true;
@@ -117,8 +97,6 @@ public class MainActivity extends AppCompatActivity {
             logoutMenuItem.setVisible(false);
             MenuItem ordersMenuItem = m.findItem(R.id.orders);
             ordersMenuItem.setVisible(false);
-            MenuItem myPizzasMenuItem = m.findItem(R.id.my_pizzas);
-            myPizzasMenuItem.setVisible(false);
         }
     }
 }
