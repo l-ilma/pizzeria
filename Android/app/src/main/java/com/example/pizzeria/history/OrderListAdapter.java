@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +12,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.pizzeria.R;
@@ -29,15 +27,12 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.StringJoiner;
-import java.util.stream.Collectors;
 
-public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.ViewHolder>{
+public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.ViewHolder> {
     public List<OrderWithProducts> items = new ArrayList<>();
     public Context context;
 
-    public OrderListAdapter(Context context, List<OrderWithProducts> items){
+    public OrderListAdapter(Context context, List<OrderWithProducts> items) {
         this.items.addAll(items);
         this.context = context;
     }
@@ -68,7 +63,7 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
             HashMap<String, Integer> productCountMap = Utilities.getProductCounts(orderWithProducts1);
 
             Basket.getInstance().clearItems();
-            for(Product product : orderWithProducts1.products){
+            for (Product product : orderWithProducts1.products) {
                 Basket.getInstance().addItem(new BasketData(product,
                         productCountMap.get(product.name)));
             }
@@ -80,13 +75,11 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
             basketActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(basketActivity);
         });
-        if(orderWithProducts.order.status.name().equals("ORDERED")){
+        if (orderWithProducts.order.status.name().equals("ORDERED")) {
             holder.statusText.setTextColor(Color.parseColor("#dc2626"));
-        }
-        else if(orderWithProducts.order.status.name().equals("PROCESSED")){
+        } else if (orderWithProducts.order.status.name().equals("PROCESSED")) {
             holder.statusText.setTextColor(Color.parseColor("#FCD12A"));
-        }
-        else if(orderWithProducts.order.status.name().equals("DELIVERED")){
+        } else if (orderWithProducts.order.status.name().equals("DELIVERED")) {
             holder.statusText.setTextColor(Color.parseColor("#0d9488"));
         }
     }
@@ -97,7 +90,7 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
     }
 
 
-    public static class ViewHolder extends RecyclerView.ViewHolder{
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView dateText;
         public TextView productsText;
         public TextView priceText;
@@ -107,6 +100,7 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
         public TextView noteText;
         public ImageButton redoOrderButton;
         public RelativeLayout itemLayout;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 

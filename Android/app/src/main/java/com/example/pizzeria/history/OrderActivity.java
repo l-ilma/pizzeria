@@ -15,24 +15,18 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.pizzeria.MainActivity;
 import com.example.pizzeria.R;
 import com.example.pizzeria.StateManager;
 import com.example.pizzeria.basket.BasketActivity;
-import com.example.pizzeria.entity.Order;
-import com.example.pizzeria.entity.Product;
 import com.example.pizzeria.repository.OrderRepository;
-import com.example.pizzeria.repository.ProductOrderRepository;
-import com.example.pizzeria.repository.ProductRepository;
 import com.example.pizzeria.repository.UserRepository;
 import com.example.pizzeria.ui.authentication.AuthenticationActivity;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 public class OrderActivity extends AppCompatActivity {
     private OrderListAdapter orderListAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,19 +74,15 @@ public class OrderActivity extends AppCompatActivity {
             logoutMenuItem.setVisible(false);
             MenuItem ordersMenuItem = m.findItem(R.id.orders);
             ordersMenuItem.setVisible(false);
-            MenuItem myPizzasMenuItem = m.findItem(R.id.my_pizzas);
-            myPizzasMenuItem.setVisible(false);
         }
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId() == R.id.orders){
+        if (item.getItemId() == R.id.orders) {
             Intent intent = new Intent(OrderActivity.this, OrderActivity.class);
             startActivity(intent);
             return true;
-        } else if (item.getItemId() == R.id.my_pizzas) {
-
         } else if (item.getItemId() == R.id.logout && StateManager.getLoggedInUser() != null) {
             logout();
             return true;
@@ -114,7 +104,7 @@ public class OrderActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private void getUserOrderHistory(){
+    private void getUserOrderHistory() {
         OrderRepository orderRepository = new OrderRepository(getApplicationContext());
         orderListAdapter = new OrderListAdapter(getApplicationContext(), orderRepository.loadAllOrdersWithProductsStatic());
     }
