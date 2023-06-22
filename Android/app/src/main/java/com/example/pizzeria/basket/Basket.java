@@ -91,6 +91,10 @@ public class Basket {
         basketContent.remove(item);
     }
 
+    public void emptyBasket() {
+        basketContent.clear();
+    }
+
     public void setAdapter(BasketAdapter _adapter){this.adapter = _adapter;}
 
     public BasketAdapter getAdapter(){return this.adapter;}

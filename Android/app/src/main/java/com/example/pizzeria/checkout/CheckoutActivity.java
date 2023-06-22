@@ -93,6 +93,7 @@ public class CheckoutActivity extends AppCompatActivity {
                 }
 
                 productOrderRepository.insertAll(orderProducts);
+                Basket.getInstance().emptyBasket();
             });
 
             finishOrderThread.start();
