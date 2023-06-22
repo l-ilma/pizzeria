@@ -18,11 +18,12 @@ public class BasketData {
     public void setQuantity(int val) {
         quantity = val;
     }
+
     public void incrementQuantity() {
         quantity += 1;
     }
-    public Product getProduct(){
+
+    public Product getProduct() {
         return product;
     }
-
 }

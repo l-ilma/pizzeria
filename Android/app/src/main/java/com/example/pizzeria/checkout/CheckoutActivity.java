@@ -75,7 +75,7 @@ public class CheckoutActivity extends AppCompatActivity {
             return;
         }
         LiveData<User> loggedInUser = StateManager.getLoggedInUser();
-        if(loggedInUser != null){
+        if (loggedInUser != null) {
             Thread finishOrderThread = new Thread(() -> {
                 ProductOrderRepository productOrderRepository = new ProductOrderRepository(getApplicationContext());
                 OrderRepository orderRepository = new OrderRepository(getApplicationContext());
@@ -84,9 +84,9 @@ public class CheckoutActivity extends AppCompatActivity {
                         Basket.getInstance().getAdapter().getSumOfCosts(), Status.ORDERED));
 
                 List<ProductOrder> orderProducts = new ArrayList<>();
-                for(BasketData basketEntry : Basket.getInstance().getBasketItems()){
-                    orderProducts.add(new ProductOrder(orderId, basketEntry.getProduct().id));
-                    if(basketEntry.getProduct().name.equals("Custom")){
+                for (BasketData basketEntry : Basket.getInstance().getBasketItems()) {
+                    orderProducts.add(new ProductOrder(orderId, basketEntry.getProduct().id, basketEntry.getQuantity()));
+                    if (basketEntry.getProduct().name.equals("Custom")) {
                         CustomPizzaRepository customPizzaRepository = new CustomPizzaRepository(getApplicationContext());
                         customPizzaRepository.insertOne(new CustomPizza(basketEntry.getProduct(), loggedInUser.getValue().id));
                     }

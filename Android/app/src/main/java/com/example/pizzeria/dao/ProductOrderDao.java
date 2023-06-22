@@ -17,4 +17,8 @@ public interface ProductOrderDao {
     @Transaction
     @Query("SELECT productId FROM productOrder WHERE orderId=:id")
     public List<Long> getProductsForOrder(long id);
+
+    @Transaction
+    @Query("SELECT * FROM ProductOrder")
+    public List<ProductOrder> getAllProductOrderCrossRefs();
 }

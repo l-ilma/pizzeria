@@ -24,9 +24,11 @@ import androidx.room.ForeignKey;
 public class ProductOrder {
     public long orderId;
     public long productId;
+    public int quantity;
 
-    public ProductOrder(long orderId, long productId) {
+    public ProductOrder(long orderId, long productId, int quantity) {
         this.orderId = orderId;
         this.productId = productId;
+        this.quantity = quantity;
     }
 }
