@@ -25,6 +25,8 @@
         android:scaleType="centerCrop"
         android:src="@drawable/basket_progress" />
 
+
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
@@ -32,6 +34,14 @@
         android:layout_weight="72"
         android:scrollbars="vertical"
         tools:context=".basket.BasketActivity" />
+
+
+    <ImageView
+        android:id="@+id/imageViewaaa"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/baske_progress" />
 
     <LinearLayout
         android:id="@+id/costs"
