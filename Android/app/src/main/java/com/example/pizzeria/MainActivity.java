@@ -15,15 +15,25 @@ import android.view.MenuItem;
 import android.widget.FrameLayout;
 
 import com.example.pizzeria.basket.BasketActivity;
+import com.example.pizzeria.entity.Order;
+import com.example.pizzeria.entity.Product;
+import com.example.pizzeria.entity.ProductOrder;
 import com.example.pizzeria.entity.User;
+import com.example.pizzeria.history.OrderListAdapter;
+import com.example.pizzeria.history.OrderWithProducts;
 import com.example.pizzeria.menu.MenuFragment;
+import com.example.pizzeria.repository.OrderRepository;
+import com.example.pizzeria.repository.ProductOrderRepository;
+import com.example.pizzeria.repository.ProductRepository;
 import com.example.pizzeria.repository.UserRepository;
 import com.example.pizzeria.ui.authentication.AuthenticationActivity;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
-
+    public OrderListAdapter orderListAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,6 +45,8 @@ public class MainActivity extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
         loadMenuFragment();
     }
+
+
 
     private void doLoggedInUserLookup() {
         AsyncTask.execute(() -> {
@@ -72,6 +84,28 @@ public class MainActivity extends AppCompatActivity {
             m.setOptionalIconsVisible(true);
         }
         return true;
+    }
+
+    private void getUserOrderHistory(){
+        OrderRepository orderRepository = new OrderRepository(getApplicationContext());
+        ProductOrderRepository productOrderRepository = new ProductOrderRepository(getApplicationContext());
+        ProductRepository productRepository = new ProductRepository(getApplicationContext());
+
+        List<Order> orders = orderRepository.getUserOrders(StateManager.getLoggedInUser().getValue().id);
+
+        List<OrderWithProducts> ordersWithProducts = new ArrayList<>();
+        List<Product> products = new ArrayList<>();
+        for(Order order : orders){
+            List<Long> productIds = productOrderRepository.getProductsForOrder(order.id);
+            for(Long id : productIds){
+                Product product = productRepository.getProduct(id);
+                products.add(product);
+            }
+
+            ordersWithProducts.add(new OrderWithProducts(order, products));
+        }
+
+        orderListAdapter = new OrderListAdapter(ordersWithProducts);
     }
 
     @Override

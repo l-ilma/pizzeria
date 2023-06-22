@@ -67,7 +67,7 @@
         android:layout_height="61dp"
         android:layout_marginBottom="8dp"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/checkoutButton"
+        app:layout_constraintBottom_toTopOf="@+id/buy_now_button"
         app:layout_constraintStart_toStartOf="parent">
 
         <TextView
@@ -122,11 +122,11 @@
         tools:context=".Checkout.CheckoutActivity" />
 
     <Button
-        android:id="@+id/checkoutButton"
+        android:id="@+id/buy_now_button"
         android:layout_width="300dp"
         android:layout_height="57dp"
         android:backgroundTint="@android:color/holo_green_dark"
-        android:onClick="onCheckoutClicked"
+        android:onClick="onBuyClick"
         android:text="@string/checkout_buy"
         android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="parent"

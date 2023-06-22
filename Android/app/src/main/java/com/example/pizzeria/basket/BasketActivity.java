@@ -80,36 +80,6 @@ public class BasketActivity extends AppCompatActivity {
 
         Intent intent = new Intent(BasketActivity.this, CheckoutActivity.class);
         startActivity(intent);
-        LiveData<User> loggedInUser = StateManager.getLoggedInUser();
-        if(loggedInUser != null){
-            Thread finishOrderThread = new Thread(() -> {
-                ProductOrderRepository productOrderRepository = new ProductOrderRepository(getApplicationContext());
-                OrderRepository orderRepository = new OrderRepository(getApplicationContext());
-
-                long orderId = orderRepository.insertOne(new Order(loggedInUser.getValue().id,
-                        adapter.getSumOfCosts()));
-
-                List<ProductOrder> orderProducts = new ArrayList<>();
-                for(BasketData basketEntry : basket){
-                    orderProducts.add(new ProductOrder(orderId, basketEntry.getProduct().id));
-                    if(basketEntry.getProduct().name.equals("Custom")){
-                        CustomPizzaRepository customPizzaRepository = new CustomPizzaRepository(getApplicationContext());
-                        customPizzaRepository.insertOne(new CustomPizza(basketEntry.getProduct(), loggedInUser.getValue().id));
-                    }
-                }
-
-                productOrderRepository.insertAll(orderProducts);
-            });
-
-            finishOrderThread.start();
-            try {
-                finishOrderThread.join();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-
-
     }
 
     private void setupActionBar() {

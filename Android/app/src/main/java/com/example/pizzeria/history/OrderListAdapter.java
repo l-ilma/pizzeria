@@ -24,7 +24,6 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
         this.items = items;
     }
 
-    public List<OrderWithProducts> getOrdersWithProducts()
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

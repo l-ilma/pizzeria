@@ -21,4 +21,8 @@ public class ProductRepository {
     public List<Product> getAllDrinks(){
         return productDao.getAllDrinks();
     }
+
+    public Product getProduct(long id){
+        return productDao.getProduct(id);
+    }
 }
