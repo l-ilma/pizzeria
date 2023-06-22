@@ -16,10 +16,10 @@
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar" />
 
     <ImageView
-        android:layout_marginTop="20dp"
         android:id="@+id/progressBar"
-        android:layout_height="0dp"
         android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="20dp"
         android:layout_weight="10"
         android:scaleType="centerCrop"
         android:src="@drawable/full_progress4" />
@@ -27,26 +27,26 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView_checkout"
         android:layout_width="match_parent"
-        android:layout_marginHorizontal="15dp"
-        android:scrollbars="vertical"
         android:layout_height="0dp"
-        android:layout_weight="40"/>
+        android:layout_marginHorizontal="15dp"
+        android:layout_weight="40"
+        android:scrollbars="vertical" />
 
     <LinearLayout
         android:id="@+id/addressLayout"
-        android:layout_marginHorizontal="15dp"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="15"
+        android:layout_marginHorizontal="15dp"
         android:layout_marginTop="20dp"
-        android:weightSum="2"
-        android:orientation="horizontal">
+        android:layout_weight="15"
+        android:orientation="horizontal"
+        android:weightSum="2">
 
         <LinearLayout
             android:id="@+id/address"
-            android:layout_weight="1.5"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1.5"
             android:orientation="vertical">
 
             <TextView
@@ -54,45 +54,49 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/address"
-                android:textSize="18sp"/>
+                android:textSize="18sp" />
 
             <EditText
                 android:id="@+id/editTextAddress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Herrengasse 2/12"
+                android:inputType="textPostalAddress"
                 android:paddingVertical="10dp"
-                android:inputType="textPostalAddress" />
+                android:textColorHint="#cbd5e1" />
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/zip"
-            android:layout_weight="0.5"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="0.5"
             android:orientation="vertical">
+
             <TextView
                 android:id="@+id/textViewDeliveryPLZ"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:inputType="number"
                 android:text="@string/zip"
-                android:textSize="18sp"/>
+                android:textSize="18sp" />
 
             <EditText
                 android:id="@+id/editTextPLZ"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="8020"
-                android:inputType="textPostalAddress" />
+                android:inputType="textPostalAddress"
+                android:textColorHint="#cbd5e1" />
         </LinearLayout>
 
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/noteLayout"
-        android:layout_marginHorizontal="15dp"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginHorizontal="15dp"
         android:layout_weight="15"
         android:orientation="vertical">
 
@@ -100,33 +104,35 @@
             android:id="@+id/textAddNote"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:text="@string/note"/>
+            android:text="@string/note"
+            android:textSize="16sp" />
 
         <EditText
             android:id="@+id/editNoteForDriver"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="No ketchup" />
+            android:hint="No ketchup"
+            android:textColorHint="#cbd5e1" />
     </LinearLayout>
 
-    <include layout="@layout/costs_view"
+    <include
+        layout="@layout/costs_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_gravity="bottom"
-        android:layout_weight="10"
         android:layout_marginHorizontal="5dp"
-        android:layout_marginTop="5dp"/>
+        android:layout_marginTop="5dp"
+        android:layout_weight="10" />
 
     <Button
         android:id="@+id/orderButton"
         android:layout_width="match_parent"
-        android:layout_marginTop="5dp"
         android:layout_height="0dp"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="5dp"
         android:layout_weight="10"
         android:backgroundTint="@color/green"
-        android:text="@string/order_now"
-        android:layout_marginHorizontal="20dp"/>
+        android:text="@string/order_now" />
 </LinearLayout>
 
 

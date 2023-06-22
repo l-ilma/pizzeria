@@ -9,10 +9,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.widget.Toolbar;
-
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -45,7 +44,7 @@ public class CheckoutActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_checkout);
 
-        basketAdapter =  Basket.getInstance().getAdapter();
+        basketAdapter = Basket.getInstance().getAdapter();
 
         RecyclerView recyclerView = findViewById(R.id.recyclerView_checkout);
         editTextAddress = findViewById(R.id.editTextAddress);
@@ -70,10 +69,21 @@ public class CheckoutActivity extends AppCompatActivity {
     }
 
     private void onOrderClick() {
-        if (editTextAddress.getText().toString().equals("") || editTextPLZ.getText().toString().equals("")) {
-            Toast.makeText(getApplicationContext(), "You must provide you address and zip code", Toast.LENGTH_LONG);
+        boolean noAddress = editTextAddress.getText().toString().equals("");
+        boolean noZip = editTextPLZ.getText().toString().equals("");
+
+        if (noAddress) {
+            editTextAddress.setError("Required");
+        }
+        if (noZip) {
+            editTextPLZ.setError("Required");
+        }
+
+        if (noAddress || noZip) {
+            Toast.makeText(this, "You must provide you address and zip code", Toast.LENGTH_LONG).show();
             return;
         }
+
         LiveData<User> loggedInUser = StateManager.getLoggedInUser();
         if (loggedInUser != null) {
             Thread finishOrderThread = new Thread(() -> {
@@ -112,14 +122,15 @@ public class CheckoutActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private void showEndSum(){
+    private void showEndSum() {
         TextView endSum = findViewById(R.id.sum);
         TextView deliveryFeeView = findViewById(R.id.delivery_costs);
 
         endSum.setText(String.format("%.2f", basketAdapter.getSumOfCosts()) + "€");
-        deliveryFeeView.setText(basketAdapter.getDeliveryFee() + "€");    }
+        deliveryFeeView.setText(basketAdapter.getDeliveryFee() + "€");
+    }
 
-    private void createActionToolbar(){
+    private void createActionToolbar() {
         Toolbar bar = findViewById(R.id.toolbar);
         setSupportActionBar(bar);
         ActionBar actionBar = getSupportActionBar();
