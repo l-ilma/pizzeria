@@ -134,13 +134,12 @@ public class CheckoutActivity extends AppCompatActivity {
 
                 List<ProductOrder> orderProducts = new ArrayList<>();
                 for (BasketData basketEntry : Basket.getInstance().getBasketItems()) {
-
                     if (basketEntry.getProduct().name.equals("Custom")) {
                         CustomPizzaRepository customPizzaRepository = new CustomPizzaRepository(getApplicationContext());
-                        customPizzaRepository.insertOne(new CustomPizza(basketEntry.getProduct(), loggedInUser.getValue().id));
+                        customPizzaRepository.insertOne(new CustomPizza(basketEntry.getProduct(), loggedInUser.getValue().id, orderId, basketEntry.getQuantity()));
+                    } else {
+                        orderProducts.add(new ProductOrder(orderId, basketEntry.getProduct().id, basketEntry.getQuantity()));
                     }
-
-                    orderProducts.add(new ProductOrder(orderId, basketEntry.getProduct().id, basketEntry.getQuantity()));
                 }
 
                 productOrderRepository.insertAll(orderProducts);

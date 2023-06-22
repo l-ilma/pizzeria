@@ -11,6 +11,7 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.example.pizzeria.R;
+import com.example.pizzeria.entity.CustomPizza;
 import com.example.pizzeria.entity.Product;
 import com.example.pizzeria.entity.ProductOrder;
 import com.example.pizzeria.model.OrderWithProducts;
@@ -95,7 +96,7 @@ public class OrderArrayAdapter extends BaseAdapter {
 
         AsyncTask.execute(() -> {
             List<ProductOrder> refs = productOrderRepository.getAllProductOrderCrossRefs();
-            StringJoiner stringJoiner = new StringJoiner(", ");
+            StringJoiner productStringJoiner = new StringJoiner(", ");
 
             for (Product p : orderWithProducts.products) {
                 int quantity = refs.stream()
@@ -103,10 +104,16 @@ public class OrderArrayAdapter extends BaseAdapter {
                         .findFirst()
                         .get().quantity;
 
-                stringJoiner.add(String.format("%s %d", p.name, quantity));
+                productStringJoiner.add(String.format("%s %d", p.name, quantity));
             }
 
-            ((TextView) view.findViewById(R.id.products)).setText(stringJoiner.toString());
+            StringJoiner customPizzasStringJoiner = new StringJoiner("\n");
+            for (CustomPizza cp : orderWithProducts.customPizzas) {
+                customPizzasStringJoiner.add(String.format("Custom: %s, %dx", cp.ingredients, cp.quantity));
+            }
+
+            ((TextView) view.findViewById(R.id.products)).setText(productStringJoiner.toString());
+            ((TextView) view.findViewById(R.id.customPizzas)).setText(customPizzasStringJoiner.toString());
         });
 
 
