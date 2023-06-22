@@ -2,10 +2,10 @@
     <string name="app_name">Pizzeria</string>
     <string name="get_backend_message">Get Backend Message</string>
     <string name="proceed_checkout">Proceed to Checkout</string>
-    <string name="checkout_buy">Buy now</string>
-    <string name="enter_address">Enter Address</string>
-    <string name="add_note">Add Note</string>
-    <string name="PLZ">ZIP</string>
+    <string name="order_now">Order now</string>
+    <string name="address">Address*</string>
+    <string name="note">Note</string>
+    <string name="zip">ZIP*</string>
     <string name="menu">Menu</string>
     <string name="basket">Basket</string>
     <string name="checkout">Checkout</string>

@@ -1,40 +1,32 @@
-
-package com.example.pizzeria.Checkout;
+package com.example.pizzeria.checkout;
 
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import androidx.appcompat.widget.Toolbar;
-;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-
 
 import com.example.pizzeria.R;
 import com.example.pizzeria.basket.Basket;
 import com.example.pizzeria.basket.BasketAdapter;
-import com.example.pizzeria.basket.BasketData;
-
 
 public class CheckoutActivity extends AppCompatActivity {
-
-    private CheckoutAdapter adapter;
-    private TextView EndSum;
+    BasketAdapter basketAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_checkout);
 
+        basketAdapter =  Basket.getInstance().getAdapter();
+
         RecyclerView recyclerView = findViewById(R.id.recyclerView_checkout);
 
-        adapter = new CheckoutAdapter(Basket.getInstance().getBasketItems());
+        CheckoutAdapter adapter = new CheckoutAdapter(Basket.getInstance().getBasketItems());
         adapter.setBasketAdapter(Basket.getInstance().getAdapter());
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -43,25 +35,22 @@ public class CheckoutActivity extends AppCompatActivity {
         showEndSum();
 
         createActionToolbar();
-        //updateProgressBar();
     }
 
     private void showEndSum(){
-        EndSum = findViewById(R.id.sum_total);
-        BasketAdapter basket_adapter =  Basket.getInstance().getAdapter();
+        TextView endSum = findViewById(R.id.sum);
+        TextView deliveryFeeView = findViewById(R.id.delivery_costs);
 
-        EndSum.setText(String.format("%.2f", basket_adapter.getSumOfCosts()) + "€");
-    }
+        endSum.setText(String.format("%.2f", basketAdapter.getSumOfCosts()) + "€");
+        deliveryFeeView.setText(basketAdapter.getDeliveryFee() + "€");    }
 
     private void createActionToolbar(){
-        Toolbar bar = findViewById(R.id.toolbar_checkout);
+        Toolbar bar = findViewById(R.id.toolbar);
         setSupportActionBar(bar);
         ActionBar actionBar = getSupportActionBar();
 
         actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setDisplayShowHomeEnabled(true);
         actionBar.setTitle("Checkout");
-
     }
 
     @Override
@@ -73,9 +62,4 @@ public class CheckoutActivity extends AppCompatActivity {
         }
         return true;
     }
-
-
-
-
-
 }

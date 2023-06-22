@@ -14,7 +14,7 @@ import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.pizzeria.Checkout.CheckoutActivity;
+import com.example.pizzeria.checkout.CheckoutActivity;
 import com.example.pizzeria.R;
 import com.example.pizzeria.StateManager;
 import com.example.pizzeria.entity.CustomPizza;
@@ -27,7 +27,6 @@ import com.example.pizzeria.repository.ProductOrderRepository;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class BasketActivity extends AppCompatActivity {
 

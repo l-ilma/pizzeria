@@ -22,7 +22,7 @@
         <activity android:name=".basket.BasketActivity"
             android:exported="true">
         </activity>
-        <activity android:name=".Checkout.CheckoutActivity"
+        <activity android:name=".checkout.CheckoutActivity"
             android:windowSoftInputMode="adjustPan"
             android:exported="true"/>
     </application>

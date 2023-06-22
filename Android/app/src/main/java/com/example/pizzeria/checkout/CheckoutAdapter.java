@@ -1,4 +1,4 @@
-package com.example.pizzeria.Checkout;
+package com.example.pizzeria.checkout;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -62,11 +62,11 @@ public class CheckoutAdapter extends RecyclerView.Adapter<CheckoutAdapter.ViewHo
         public TextView itemNumbers;
         public ViewHolder(View itemView) {
             super(itemView);
-            this.imageView = itemView.findViewById(R.id.imageView_checkout);
-            this.textView = itemView.findViewById(R.id.textView_checkout);
-            this.numberView = itemView.findViewById(R.id.numberView_checkout);
+            this.imageView = itemView.findViewById(R.id.itemImageView);
+            this.textView = itemView.findViewById(R.id.itemNameView);
+            this.numberView = itemView.findViewById(R.id.priceView);
             layout = itemView.findViewById(R.id.checkoutLayout);
-            this.itemNumbers = itemView.findViewById(R.id.item_number);
+            this.itemNumbers = itemView.findViewById(R.id.itemCountView);
 
         }
     }
