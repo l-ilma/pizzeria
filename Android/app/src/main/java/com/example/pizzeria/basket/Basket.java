@@ -1,5 +1,6 @@
 package com.example.pizzeria.basket;
 
+import com.example.pizzeria.entity.Product;
 import com.example.pizzeria.utils.ListUtils;
 
 import java.util.ArrayList;
@@ -60,10 +61,30 @@ public class Basket {
         return basketContent.toArray(new BasketData[0]);
     }
 
-    public void updateItemCount(BasketData item, int count) {
-        basketContent.stream().filter(i -> i.getProduct().name.equals(item.getProduct().name))
-                .findFirst()
-                .ifPresent(i -> i.setQuantity(count));
+    public BasketData[] getUniqueBasketItems() { // all custom pizzas are considered the same
+        List<BasketData> uniqueBasketData = new ArrayList<>();
+        int customPizzasCount = 0;
+        float customPizzaPrice = 0f;
+        int customPizzaId = 0;
+        for (BasketData basketItem: basketContent) {
+            if (basketItem.getProduct().name.equals("Custom")) {
+                customPizzasCount += basketItem.getQuantity();
+                customPizzaId = basketItem.getProduct().staticId;
+                customPizzaPrice = basketItem.getProduct().price;
+            } else {
+                uniqueBasketData.add(basketItem);
+            }
+        }
+        if (customPizzasCount > 0) {
+            uniqueBasketData.add(new BasketData(
+                    new Product("Custom", customPizzaPrice, customPizzaId, "", 1),
+                    customPizzasCount));
+        }
+        return uniqueBasketData.toArray(new BasketData[0]);
+    }
+
+    public void updateItemCount(int index, int count) {
+        basketContent.get(index).setQuantity(count);
     }
 
     public void removeItem(BasketData item) {

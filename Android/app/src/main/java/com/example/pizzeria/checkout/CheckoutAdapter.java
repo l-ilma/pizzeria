@@ -11,7 +11,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.pizzeria.R;
-import com.example.pizzeria.basket.BasketAdapter;
 import com.example.pizzeria.basket.BasketData;
 
 import java.util.ArrayList;
@@ -20,15 +19,10 @@ import java.util.List;
 
 public class CheckoutAdapter extends RecyclerView.Adapter<CheckoutAdapter.ViewHolder>{
 
-    private BasketAdapter basketAdapter; // needed to fetch data from Basket
-    private List<BasketData> basket_content_final = new ArrayList<>();
+    private List<BasketData> basketContent = new ArrayList<>();
 
-    public CheckoutAdapter(BasketData[] basket_content){
-        this.basket_content_final = Arrays.asList(basket_content);
-    }
-
-    public void setBasketAdapter(BasketAdapter basketAdapter) {
-        this.basketAdapter = basketAdapter;
+    public CheckoutAdapter(BasketData[] basketContent){
+        this.basketContent = Arrays.asList(basketContent);
     }
 
     @NonNull
@@ -41,7 +35,7 @@ public class CheckoutAdapter extends RecyclerView.Adapter<CheckoutAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(CheckoutAdapter.ViewHolder holder, int position) {
-        final BasketData data = basket_content_final.get(position);
+        final BasketData data = basketContent.get(position);
         holder.textView.setText(data.getProduct().name);
         holder.imageView.setImageResource(data.getProduct().staticId);
         holder.itemNumbers.setText(data.getQuantity() + "x");
@@ -50,7 +44,7 @@ public class CheckoutAdapter extends RecyclerView.Adapter<CheckoutAdapter.ViewHo
 
     @Override
     public int getItemCount() {
-        return basket_content_final.size();
+        return basketContent.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

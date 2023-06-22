@@ -119,13 +119,12 @@
         android:layout_marginTop="5dp"/>
 
     <Button
-        android:id="@+id/buy_now_button"
+        android:id="@+id/orderButton"
         android:layout_width="match_parent"
         android:layout_marginTop="5dp"
         android:layout_height="0dp"
         android:layout_weight="10"
         android:backgroundTint="@color/green"
-        android:onClick="onBuyClick"
         android:text="@string/order_now"
         android:layout_marginHorizontal="20dp"/>
 </LinearLayout>

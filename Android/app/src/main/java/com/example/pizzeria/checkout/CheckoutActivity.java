@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,7 +16,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 
 import com.example.pizzeria.MainActivity;
 import com.example.pizzeria.R;
@@ -35,9 +35,10 @@ import com.example.pizzeria.utils.Status;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class CheckoutActivity extends AppCompatActivity {
     BasketAdapter basketAdapter;
+    EditText editTextAddress;
+    EditText editTextPLZ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,9 +48,10 @@ public class CheckoutActivity extends AppCompatActivity {
         basketAdapter =  Basket.getInstance().getAdapter();
 
         RecyclerView recyclerView = findViewById(R.id.recyclerView_checkout);
+        editTextAddress = findViewById(R.id.editTextAddress);
+        editTextPLZ = findViewById(R.id.editTextPLZ);
 
-        CheckoutAdapter adapter = new CheckoutAdapter(Basket.getInstance().getBasketItems());
-        adapter.setBasketAdapter(Basket.getInstance().getAdapter());
+        CheckoutAdapter adapter = new CheckoutAdapter(Basket.getInstance().getUniqueBasketItems());
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
@@ -58,18 +60,20 @@ public class CheckoutActivity extends AppCompatActivity {
 
         createActionToolbar();
 
-        Button checkoutButton = findViewById(R.id.buy_now_button);
+        Button checkoutButton = findViewById(R.id.orderButton);
         checkoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onBuyClick();
+                onOrderClick();
             }
         });
-        //updateProgressBar();
     }
 
-    private void onBuyClick() {
-
+    private void onOrderClick() {
+        if (editTextAddress.getText().toString().equals("") || editTextPLZ.getText().toString().equals("")) {
+            Toast.makeText(getApplicationContext(), "You must provide you address and zip code", Toast.LENGTH_LONG);
+            return;
+        }
         LiveData<User> loggedInUser = StateManager.getLoggedInUser();
         if(loggedInUser != null){
             Thread finishOrderThread = new Thread(() -> {

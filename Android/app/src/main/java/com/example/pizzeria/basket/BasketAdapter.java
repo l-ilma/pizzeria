@@ -137,7 +137,7 @@ public class BasketAdapter extends RecyclerView.Adapter<BasketAdapter.ViewHolder
                         return;
                     }
 
-                    Basket.getInstance().updateItemCount(basketItems[getAdapterPosition()], newVal);
+                    Basket.getInstance().updateItemCount(getAdapterPosition(), newVal);
                     ((BasketActivity) layout.getContext()).changeItemCount(getAdapterPosition(), newVal);
 
 
